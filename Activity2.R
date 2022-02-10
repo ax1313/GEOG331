@@ -32,3 +32,8 @@ Mat.bycol[,2]
 
 datW <- read.csv("data/noaa_weather/2011124.csv", stringsAsFactors = T)
 str(datW)
+
+#specify a column with a proper date format
+#note the format here dataframe$column
+datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
+#google date formatting in r to find more options and learn more
