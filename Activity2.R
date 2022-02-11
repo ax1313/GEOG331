@@ -77,7 +77,7 @@ averageTemp
 #you will have to reference the level output or look at the row of data to see the character designation.
 datW$siteN <- as.numeric(datW$NAME)
 
-#make a histogram for the first site in our levels
+#make a histogram for the first site in our levels, Aberdeen
 #main= is the title name argument.
 #Here you want to paste the actual name of the factor not the numeric index
 #since that will be more meaningful. 
@@ -88,3 +88,25 @@ hist(datW$TAVE[datW$siteN == 1],
      ylab="Relative frequency",
      col="grey50",
      border="white")
+
+#add mean line with red (tomato3) color
+#and thickness of 3
+
+abline(v = mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3",
+       lwd = 3)
+
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+
+abline(v = mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE) - sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE) + sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
