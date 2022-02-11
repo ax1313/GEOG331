@@ -37,3 +37,13 @@ str(datW)
 #note the format here dataframe$column
 datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
 #google date formatting in r to find more options and learn more
+
+#create a date column by reformatting the date to only include years
+#and indicating that it should be treated as numeric data
+datW$year <- as.numeric(format(datW$dateF,"%Y"))
+
+### QUESTION 2
+char_vec <- c("This", "is", "activity", "two", "GEOG331")
+num_vec <- c(100, 13, 1819, 13346, 200000)
+int_vec <- c(15L, 98L, 1546L, 432L, 10324L)
+factor_vec <- factor(c("sunny", "mostly sunny", "snow", "partly cloudy", "rain", "snow", "mostly sunny"))
