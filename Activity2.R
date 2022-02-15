@@ -278,3 +278,32 @@ qnorm(0.95,
 1 - pnorm(16,
       mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
       sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+hist(datW$PRCP[datW$siteN == 1],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[1]),
+     xlim = c(0, 80),
+     xlab = "Daily Precipitation (in.)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+
+# QUESTION 8
+sumPrcp <- aggregate(datW$PRCP, by=c(list(datW$year), list(datW$siteN), list(datW$NAME)), FUN="sum",na.rm=TRUE)
+colnames(sumPrcp)[1] <- 'year'
+colnames(sumPrcp)[2] <- 'siteN'
+colnames(sumPrcp)[3] <- 'name'
+sumPrcp
+
+
+hist(sumPrcp$x[sumPrcp$siteN == 1],
+     freq=FALSE, 
+     main = paste(levels(sumPrcp$name)[1]),
+     xlab = "Annual Precipitation (in.)",
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+
+avgPrcp <- aggregate(sumPrcp$x, by=list(sumPrcp$name), FUN="mean", na.rm = TRUE)
+avgPrcp
+
