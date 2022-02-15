@@ -1,34 +1,6 @@
 # GEOG331 Activity 2 Script
-# 01/31/22
-
-# Make a vector of tree heights in meters
-heights <- c(30, 41, 20, 22)
-
-#get more info on the matrix function
-#help(matrix)
-
-#convert to cm
-heights_cm = heights * 100
-heights_cm
-
-#set up a matrix with 2 columns and fill in by rows
-#first argument is the vector of numbers to fill in the matrix
-Mat<-matrix(c(1,2,3,4,5,6), ncol=2, byrow=TRUE)
-Mat
-
-#set up a matrix that fills in by columns
-#first argument is the vector of numbers to fill in the matrix
-Mat.bycol<-matrix(c(1,2,3,4,5,6), ncol=2, byrow=FALSE)
-Mat.bycol
-
-#subset the matrix to look at row 1, column2
-Mat.bycol[1,2]
-
-#look at all values in row 1
-Mat.bycol[1,]
-
-#look at all values in column 2
-Mat.bycol[,2]
+# Andrew Xie
+# 02/14/22
 
 datW <- read.csv("data/noaa_weather/2011124.csv", stringsAsFactors = T)
 str(datW)
@@ -42,11 +14,12 @@ datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
 #and indicating that it should be treated as numeric data
 datW$year <- as.numeric(format(datW$dateF,"%Y"))
 
-### QUESTION 2
+### Start QUESTION 2 Code ###
 char_vec <- c("This", "is", "activity", "two", "GEOG331")
 num_vec <- c(100, 13, 1819, 13346, 200000)
 int_vec <- c(15L, 98L, 1546L, 432L, 10324L)
 factor_vec <- factor(c("sunny", "mostly sunny", "snow", "partly cloudy", "rain", "snow", "mostly sunny"))
+### End QUESTION 2 Code ###
 
 #find out all unique site names
 unique(datW$NAME)
@@ -77,7 +50,7 @@ averageTemp
 #you will have to reference the level output or look at the row of data to see the character designation.
 datW$siteN <- as.numeric(datW$NAME)
 
-# QUESTION 4
+### Start QUESTION 4 Code ###
 par(mfrow = c(2,2))
 
 #make a histogram for the first site in our levels, Aberdeen
@@ -215,7 +188,7 @@ abline(v = mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE) + sd(datW$TAVE[datW$siteN
        col = "tomato3", 
        lty = 3,
        lwd = 3)
-
+### End QUESTION 4 Code ###
 
 #make a histogram for the first site in our levels
 #main= is the title name argument.
@@ -275,10 +248,13 @@ qnorm(0.95,
       mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
       sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
 
+### Start QUESTION 6 Code ###
 1 - pnorm(16,
       mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
       sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+### End QUESTION 6 Code ###
 
+### Start QUESTION 7 Code ###
 hist(datW$PRCP[datW$siteN == 1],
      freq=FALSE, 
      main = paste(levels(datW$NAME)[1]),
@@ -287,14 +263,14 @@ hist(datW$PRCP[datW$siteN == 1],
      ylab="Relative frequency",
      col="grey50",
      border="white")
+### End QUESTION 7 Code ###
 
-# QUESTION 8
+### Start QUESTION 8 Code ###
 sumPrcp <- aggregate(datW$PRCP, by=c(list(datW$year), list(datW$siteN), list(datW$NAME)), FUN="sum",na.rm=TRUE)
 colnames(sumPrcp)[1] <- 'year'
 colnames(sumPrcp)[2] <- 'siteN'
 colnames(sumPrcp)[3] <- 'name'
 sumPrcp
-
 
 hist(sumPrcp$x[sumPrcp$siteN == 1],
      freq=FALSE, 
@@ -303,7 +279,9 @@ hist(sumPrcp$x[sumPrcp$siteN == 1],
      ylab="Relative frequency",
      col="grey50",
      border="white")
+### End QUESTION 8 Code ###
 
+### Start QUESTION 9 Code ###
 avgPrcp <- aggregate(sumPrcp$x, by=list(sumPrcp$name), FUN="mean", na.rm = TRUE)
 avgPrcp
-
+### End QUESTION 9 Code ###
