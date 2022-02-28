@@ -101,3 +101,56 @@ datW[datW$air.tempQ1 < 8,]
 #look at days with really high air temperature
 datW[datW$air.tempQ1 > 33,]  
 
+#plot precipitation and lightning strikes on the same plot
+#normalize lighting strikes to match precipitation
+lightscale <- (max(datW$precipitation)/max(datW$lightning.acvitivy)) * datW$lightning.acvitivy
+#make the plot with precipitation and lightning activity marked
+#make it empty to start and add in features
+plot(datW$DD , datW$precipitation, xlab = "Day of Year", ylab = "Precipitation & lightning",
+     type="n")
+#plot precipitation points only when there is precipitation 
+#make the points semi-transparent
+points(datW$DD[datW$precipitation > 0], datW$precipitation[datW$precipitation > 0],
+       col= rgb(95/255,158/255,160/255,.5), pch=15)        
+
+#plot lightning points only when there is lightning     
+points(datW$DD[lightscale > 0], lightscale[lightscale > 0],
+       col= "tomato3", pch=19)
+
+#filter out storms in wind and air temperature measurements
+# filter all values with lightning that coincides with rainfall greater than 2mm or only rainfall over 5 mm.    
+#create a new air temp column
+datW$air.tempQ2 <- ifelse(datW$precipitation  >= 2 & datW$lightning.acvitivy >0, NA,
+                          ifelse(datW$precipitation > 5, NA, datW$air.tempQ1))
+
+
+mrg <- merge(datW$DD, datW$DD[lightscale > 0])
+nrow(mrg)
+mrg
+
+# Start QUESTION 5 Here
+assert(all(datW$DD[lightscale > 0] %in% datW$DD), "Error: Cannot subset datW w/ lightscale")
+#End QUESTION 5 Here
+
+# Start QUESTION 6 Here
+
+# Make initial plot to detect suspect wind speed values
+plot(datW$DD, datW$wind.speed, pch=19, type="b", xlab = "Day of Year",
+     ylab="Wind speed (m/s)")
+
+datW$wind.speed.tempQ1 <- ifelse(datW$wind.speed > 0.7 & datW$DD < 200, NA,
+                                 ifelse(datW$wind.speed > 1.2 & datW$DD > 200, NA, 
+                                 ifelse(datW$wind.speed < 0.5 & datW$DD > 205, NA, datW$wind.speed)
+
+assert(!setequal(datW$wind.speed, datW$wind.speed.tempQ1), "Error: Data not filtered")
+
+length(datW$wind.speed[datW$wind.speed > 3*mean(datW$wind.speed)])
+
+plot(datW$DD, datW$wind.speed.tempQ1, pch=19, type="b", xlab = "Day of Year",
+     ylab="Wind speed (m/s)")
+
+# End QUESTION 6 Here
+
+
+
+
