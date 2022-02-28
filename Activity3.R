@@ -141,7 +141,7 @@ plot(datW$DD, datW$air.temperature, pch=19, type="b", xlab = "Day of Year",
      ylab="Air temperature (degrees C)")
 # End QUESTION 7 Here
 
-# Start QUESTION 8 Here
+# Start QUESTION 8 Here - Use temp columns without extraneous values
 num_calc = length(datW$air.temperature[!is.na(datW$soil.moisture)]) + length(datW$precipitation[!is.na(datW$soil.moisture)]) +
   length(datW$soil.moisture[!is.na(datW$soil.moisture)]) + length(datW$soil.temp[!is.na(datW$soil.temp)])
 
