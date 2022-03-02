@@ -108,15 +108,15 @@ plot(datW$DD, datW$wind.speed, pch=19, type="b", xlab = "Day of Year",
      ylab="Wind speed (m/s)")
 
 # Eliminate extraneous wind speed values
-datW$wind.speed.tempQ1 <- ifelse(datW$wind.speed > 0.7 & datW$DD < 200, NA,
+datW$wind.speedQ1 <- ifelse(datW$wind.speed > 0.7 & datW$DD < 200, NA,
                                  ifelse(datW$wind.speed > 1.2 & datW$DD > 200, NA, 
                                  ifelse(datW$wind.speed < 0.5 & datW$DD > 205, NA, datW$wind.speed)))
 
 # Check if new temp wind speed column is not the same as the original wind speed column
-assert(!setequal(datW$wind.speed, datW$wind.speed.tempQ1), "Error: Data not filtered")
+assert(!setequal(datW$wind.speed, datW$wind.speedQ1), "Error: Data not filtered")
 
 # Make line / point plot (Day of Year vs. Wind Speed)
-plot(datW$DD, datW$wind.speed.tempQ1, pch=19, type="b", xlab = "Day of Year",
+plot(datW$DD, datW$wind.speedQ1, pch=19, type="b", xlab = "Day of Year",
      ylab="Wind speed (m/s)")
 # End QUESTION 6 Here
 
@@ -129,24 +129,46 @@ plot(datW$DD, datW$soil.temp, pch=19, type="b", xlab = "Day of Year",
      ylab="Soil temp (degrees C)")
 
 plot(datW$DD, datW$soil.moisture, pch=19, type="b", xlab = "Day of Year",
-     ylab="Soil moisture (degrees C)")
+     ylab="Soil moisture (m^3 / m^3)")
 
 # Precipitation contains a few extreme values to be removed
-datW$precipitation.tempQ1 <- ifelse(datW$precipitation > 6, NA, datW$precipitation)
+datW$precipitationQ1 <- ifelse(datW$precipitation > 6, NA, datW$precipitation)
 
-plot(datW$DD, datW$precipitation.tempQ1, pch=19, type="b", xlab = "Day of Year",
+plot(datW$DD, datW$precipitationQ1, pch=19, type="b", xlab = "Day of Year",
      ylab="Precipitation (mm)")
 
 plot(datW$DD, datW$air.temperature, pch=19, type="b", xlab = "Day of Year",
      ylab="Air temperature (degrees C)")
 # End QUESTION 7 Here
 
-# Start QUESTION 8 Here - Use temp columns without extraneous values
-num_calc = length(datW$air.temperature[!is.na(datW$soil.moisture)]) + length(datW$precipitation[!is.na(datW$soil.moisture)]) +
+# Start QUESTION 8 Here
+num_calc = length(datW$air.tempQ1) + length(datW$wind.speedQ1) + length(datW$precipitationQ1)
   length(datW$soil.moisture[!is.na(datW$soil.moisture)]) + length(datW$soil.temp[!is.na(datW$soil.temp)])
 
+# Get earliest and latest days data was collected
+# For soil, latest day is in mid-July due to the sensor malfunction
 min_day = min(datW$timestamp)
-max_day = max(datW$timestamp[!is.na(datW$soil.moisture)])
+max_day_soil = max(datW$timestamp[!is.na(datW$soil.moisture)])
+max_day = max(datW$timestamp[is.na(datW$soil.moisture)])
+
+# Find average air temperature (Accuracy = +/- 0.6 degrees C)
+avg_air_temp = mean(datW$air.tempQ1, na.rm = TRUE)
+
+#Find average wind speed (Accuracy = The greater of 0.3 m/s or 3% of measurement)
+avg_wind_speed = mean(datW$wind.speedQ1, na.rm = TRUE)
+# Check accuracy
+accuracy_ws = 0.03 * avg_wind_speed
+
+# Find average soil moisture (Accuracy = +/- 0.03 m^3/m^3)
+avg_soil_mt = mean(datW$soil.moisture, na.rm = TRUE)
+
+# Find average soil temperature (Accuracy = +/- 1 m)
+avg_soil_temp = mean(datW$soil.temp, na.rm = TRUE)
+
+# Find total precipitation (Accuracy = +/- 5% of measurement from 0 to 50 mm/h)
+total_precip = sum(datW$precipitationQ1, na.rm = TRUE)
+# Check accuracy
+accuracy_precip = 0.05 * total_precip
 
 # End QUESTION 8 Here
 
@@ -156,14 +178,14 @@ par(mfrow = c(2,2))
 
 # Generate four plots
 plot(datW$DD, datW$soil.moisture, pch=19, type="b", xlab = "Day of Year",
-     ylab="Soil moisture (degrees C)")
+     ylab="Soil moisture (m^3 / m^3)")
 
 plot(datW$DD, datW$soil.temp, pch=19, type="b", xlab = "Day of Year",
      ylab="Soil temp (degrees C)")
 
-plot(datW$DD, datW$precipitation, pch=19, type="b", xlab = "Day of Year",
+plot(datW$DD, datW$precipitationQ1, pch=19, type="b", xlab = "Day of Year",
      ylab="Precipitation (mm)")
 
-plot(datW$DD, datW$air.temperature, pch=19, type="b", xlab = "Day of Year",
+plot(datW$DD, datW$air.tempQ1, pch=19, type="b", xlab = "Day of Year",
      ylab="Air temperature (degrees C)")
 # End QUESTION 9 Here
