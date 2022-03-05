@@ -46,6 +46,7 @@ datW$DD <- datW$doy + (datW$hour/24)
 #quick preview of new date calculations
 datW[1,]
 
+# Perform QA/QC on air temperature column
 datW$air.tempQ1 <- ifelse(datW$air.temperature < 0, NA, datW$air.temperature)
 
 # Start QUESTION 5 Here
