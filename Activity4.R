@@ -23,16 +23,22 @@ library(ggplot2)
 
 # hint: consider using a list, and also new vectors for regression variables
 
+# Create new dataframe with only versicolor irises
 flower <- iris[iris$Species == "versicolor",]
 
+# set up vectors of indices representing the columns that will be used in the regression calculations
 x <- c(1, 3, 1)
-y <- c(2, 4, 4)
-v <- list()
-for (i in 1:3) {
-  v[[i]] <- lm(flower[, x[i]]~flower[, y[i]])
-  print(summary(v[[i]]))
-}
+y <- c(2, 4, 3)
 
+# Create list to store regression tables
+v <- list()
+
+# For loop to generate regression tables and store them in the list v
+for (i in 1:3) {
+  v[[i]] <- summary(lm(flower[, x[i]]~flower[, y[i]]))
+  print("Regression model: ")
+  print(v[[i]])
+}
 
 #####################################
 ##### Part 2: data in dplyr     #####
@@ -43,7 +49,10 @@ for (i in 1:3) {
 height <- data.frame(Species = c("virginica","setosa","versicolor"),
                      Height.cm = c(60,100,11.8))
 
+# Full join iris and height by species
 new_iris <- full_join(iris, height, by = 'Species')
+
+# Change name of Height.cm column in the height data frame to "Max.Height"
 colnames(new_iris)[ncol(new_iris)] <- "Max.Height"
 
 #####################################
@@ -65,7 +74,8 @@ no_grid_plot
 #    show species by color, and make the point size proportional to petal length
 final_plot <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species, size=Petal.Length)) + geom_point() + 
               theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-              ggtitle("Sepal Length vs. Width") + xlab("Sepal length (cm)") + ylab("Sepal Width (cm)")
+              ggtitle("Sepal Length vs. Width") + theme(plot.title = element_text(hjust = 0.5)) +
+              xlab("Sepal length (cm)") + ylab("Sepal Width (cm)")
 final_plot
 
 #####################################
@@ -73,9 +83,3 @@ final_plot
 ##### arguments differ between  #####
 ##### plot and ggplot?          #####
 #####################################
-
-#
-#
-#
-#
-#
