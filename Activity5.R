@@ -85,8 +85,6 @@ polygon(c(aveF$doy, rev(aveF$doy)),#x coordinates
         border=NA#no border
 )       
 
-#axis(1, c(0, 100, 200, 360), #tick intervals
-#     lab=c(0, 100, 200, 360)) #tick labels
 axis(2, seq(0,80, by=20),
      seq(0,80, by=20),
      las = 2)#show ticks at 90 degree angle
@@ -97,7 +95,41 @@ legend("topright", c("mean","1 standard deviation"), #legend items
        bty="n")#no legend border
 
 # Start QUESTION 5 Here
-#lines(c(120,240,360), c(40, 60, 20))
+
+#basic formatting
+aveF <- aggregate(datD$discharge, by=list(datD$doy), FUN="mean")
+colnames(aveF) <- c("doy","dailyAve")
+sdF <- aggregate(datD$discharge, by=list(datD$doy), FUN="sd")
+colnames(sdF) <- c("doy","dailySD")
+
+#start new plot
+dev.new(width=8,height=8)
+
+#bigger margins
+par(mai=c(1,1,1,1))
+#make plot
+plot(aveF$doy,aveF$dailyAve, 
+     type="l", 
+     xlab="Year", 
+     ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")),
+     lwd=2,
+     ylim=c(0,90),
+     xaxs="i", yaxs ="i",#remove gaps from axes
+     axes=FALSE)#no axes
+polygon(c(aveF$doy, rev(aveF$doy)),#x coordinates
+        c(aveF$dailyAve-sdF$dailySD,rev(aveF$dailyAve+sdF$dailySD)),#ycoord
+        col=rgb(0.392, 0.584, 0.929,.2), #color that is semi-transparent
+        border=NA#no border
+)       
+
+axis(2, seq(0,80, by=20),
+     seq(0,80, by=20),
+     las = 2)#show ticks at 90 degree angle
+legend("topright", c("mean","1 standard deviation"), #legend items
+       lwd=c(2,NA),#lines
+       col=c("black",rgb(0.392, 0.584, 0.929,.2)),#colors
+       pch=c(NA,15),#symbols
+       bty="n")#no legend border
 
 aveF17 <- aggregate(datD$discharge[datD$year == '2017'], by=list(datD$doy[datD$year == '2017']), FUN="mean")
 colnames(aveF17) <- c("doy","dailyAve")
@@ -139,8 +171,6 @@ plot(datD$decYear[datD$year <= maxYear & datD$year >= minYear], datD$discharge[d
 points(df7$decYear, rep(200, nrow(df7)), pch = 25)
 # End QUESTION 7 Here
 
-# Start QUESTION 8 Here
-
 #subsest discharge and precipitation within range of interest
 hydroD <- datD[datD$doy >= 248 & datD$doy < 250 & datD$year == 2011,]
 hydroP <- datP[datP$doy >= 248 & datP$doy < 250 & datP$year == 2011,]
@@ -175,6 +205,8 @@ for(i in 1:nrow(hydroP)){
           c(yl,hydroP$pscale[i],hydroP$pscale[i],yl),
           col=rgb(0.392, 0.584, 0.929,.2), border=NA)
 }
+
+# Start QUESTION 8 Here
 
 # End QUESTION 8 Here
 
