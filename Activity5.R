@@ -1,6 +1,6 @@
 # GEOG331 Activity 5 Script
 # Andrew Xie
-# 04/04/2022
+# 04/03/2022
 
 # SECTION 1: Working with USGS streamflow data
 
@@ -73,7 +73,7 @@ par(mai=c(1,1,1,1))
 #make plot
 plot(aveF$doy,aveF$dailyAve, 
      type="l", 
-     xlab="Year", 
+     xlab="Month", 
      ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")),
      lwd=2,
      ylim=c(0,90),
@@ -96,11 +96,9 @@ legend("topright", c("mean","1 standard deviation"), #legend items
 
 aveF17 <- aggregate(datD$discharge[datD$year == '2017'], by=list(datD$doy[datD$year == '2017']), FUN="mean")
 colnames(aveF17) <- c("doy","dailyAve")
-sdF17 <- aggregate(datD$discharge[datD$year == '2017'], by=list(datD$doy[datD$year == '2017']), FUN="sd")
-colnames(sdF17) <- c("doy","dailySD")
 
 lines(aveF17$doy, aveF17$dailyAve, col = "red")
-axis(1, c(0, 15, 43, 74, 104, 135, 165, 196, 227, 257, 288, 318, 349), #tick intervals
+axis(1, c(0, 15, 43, 74, 104, 135, 165, 196, 227, 257, 288, 318, 349), #tick intervals by month
      lab=seq(0,12, by=1)) #tick labels
 
 # End QUESTION 5 Here
@@ -135,8 +133,8 @@ points(df7$decYear, rep(370, nrow(df7)), pch = 1)
 # Start QUESTION 8 Here
 
 #subsest discharge and precipitation within range of interest
-hydroD <- datD[datD$doy >= 12 & datD$doy < 16 & datD$year == 2012,]
-hydroP <- datP[datP$doy >= 12 & datP$doy < 16 & datP$year == 2012,]
+hydroD <- datD[datD$doy >= 12 & datD$doy < 15 & datD$year == 2012,]
+hydroP <- datP[datP$doy >= 12 & datP$doy < 15 & datP$year == 2012,]
 
 min(hydroD$discharge)
 
@@ -188,6 +186,7 @@ ggplot(data= datD, aes(yearPlot,discharge)) +
   geom_violin()
 
 # Start QUESTION 9 Here
+library(ggplot2)
 num_days = 365
 if (leap_year(year)) {
   num_days = 366
@@ -196,11 +195,17 @@ if (leap_year(year)) {
 datD$season <- ifelse((datD$decDay/num_days) < 0.25, 'Winter',
                       ifelse((datD$decDay/num_days) < 0.5, 'Spring',
                              ifelse((datD$decDay/num_days) < 0.75, 'Summer', 'Autumn')))
+datD2016 <- subset(datD, year == 2016)
+datD2017 <- subset(datD, year == 2017)
+datD2016$season <- factor(datD2016$season, levels = c("Winter", "Spring", "Summer", "Autumn"))
+datD2017$season <- factor(datD2017$season, levels = c("Winter", "Spring", "Summer", "Autumn"))
 
-ggplot(data=subset(datD, year == 2016), aes(season, discharge)) +
-  geom_violin()
-ggplot(data=subset(datD, year == 2017), aes(season, discharge)) +
-  geom_violin()
+ggplot(data=datD2016, aes(season, discharge)) +
+  geom_violin() + ggtitle("2016 discharge") +
+  theme(plot.title = element_text(hjust = 0.5))
+ggplot(data=datD2017, aes(season, discharge)) +
+  geom_violin() + ggtitle("2017 discharge") + 
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 # End QUESTION 9 Here
