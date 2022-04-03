@@ -1,11 +1,12 @@
 # GEOG331 Activity 5 Script
 # Andrew Xie
-# 03/30/22
+# 04/04/2022
 
 # SECTION 1: Working with USGS streamflow data
 
 #load in lubridate
 library(lubridate)
+#library(dplyr)
 
 #read in streamflow data
 datH <- read.csv("data/streamflow/stream_flow_data.csv",
@@ -54,45 +55,7 @@ datP$decDay <- datP$doy + (datP$hour/24)
 datP$decYear <- ifelse(leap_year(datP$year),datP$year + (datP$decDay/366),
                        datP$year + (datP$decDay/365)) 
 
-#plot discharge
-plot(datD$decYear, datD$discharge, type="l", xlab="Year", ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
-
 # SECTION 2: Basic plot formatting
-
-#basic formatting
-aveF <- aggregate(datD$discharge, by=list(datD$doy), FUN="mean")
-colnames(aveF) <- c("doy","dailyAve")
-sdF <- aggregate(datD$discharge, by=list(datD$doy), FUN="sd")
-colnames(sdF) <- c("doy","dailySD")
-
-#start new plot
-dev.new(width=8,height=8)
-
-#bigger margins
-par(mai=c(1,1,1,1))
-#make plot
-plot(aveF$doy,aveF$dailyAve, 
-     type="l", 
-     xlab="Year", 
-     ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")),
-     lwd=2,
-     ylim=c(0,90),
-     xaxs="i", yaxs ="i",#remove gaps from axes
-     axes=FALSE)#no axes
-polygon(c(aveF$doy, rev(aveF$doy)),#x coordinates
-        c(aveF$dailyAve-sdF$dailySD,rev(aveF$dailyAve+sdF$dailySD)),#ycoord
-        col=rgb(0.392, 0.584, 0.929,.2), #color that is semi-transparent
-        border=NA#no border
-)       
-
-axis(2, seq(0,80, by=20),
-     seq(0,80, by=20),
-     las = 2)#show ticks at 90 degree angle
-legend("topright", c("mean","1 standard deviation"), #legend items
-       lwd=c(2,NA),#lines
-       col=c("black",rgb(0.392, 0.584, 0.929,.2)),#colors
-       pch=c(NA,15),#symbols
-       bty="n")#no legend border
 
 # Start QUESTION 5 Here
 
@@ -140,7 +103,6 @@ lines(aveF17$doy, aveF17$dailyAve, col = "red")
 axis(1, c(0, 15, 43, 74, 104, 135, 165, 196, 227, 257, 288, 318, 349), #tick intervals
      lab=seq(0,12, by=1)) #tick labels
 
-
 # End QUESTION 5 Here
 
 
@@ -165,15 +127,16 @@ for (year in minYear:maxYear) {
 }
 colnames(df7) <- c('doy', 'year')
 
-df7$decYear <- ifelse(leap_year(df7$year),df7$year + (df7$doy/366),
-                      df7$year + (df7$doy/365))
 plot(datD$decYear[datD$year <= maxYear & datD$year >= minYear], datD$discharge[datD$year <= maxYear & datD$year >= minYear], type="l", xlab="Year", ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
-points(df7$decYear, rep(200, nrow(df7)), pch = 25)
+points(df7$decYear, rep(370, nrow(df7)), pch = 1)
 # End QUESTION 7 Here
 
+
+# Start QUESTION 8 Here
+
 #subsest discharge and precipitation within range of interest
-hydroD <- datD[datD$doy >= 248 & datD$doy < 250 & datD$year == 2011,]
-hydroP <- datP[datP$doy >= 248 & datP$doy < 250 & datP$year == 2011,]
+hydroD <- datD[datD$doy >= 12 & datD$doy < 16 & datD$year == 2012,]
+hydroP <- datP[datP$doy >= 12 & datP$doy < 16 & datP$year == 2012,]
 
 min(hydroD$discharge)
 
@@ -188,6 +151,9 @@ pl <- 0
 pm <-  ceiling(max(hydroP$HPCP))+.5
 #scale precipitation to fit on the 
 hydroP$pscale <- (((yh-yl)/(pm-pl)) * hydroP$HPCP) + yl
+
+#start new plot
+dev.new(width=8,height=8)
 
 par(mai=c(1,1,1,1))
 #make plot of discharge
@@ -206,8 +172,6 @@ for(i in 1:nrow(hydroP)){
           col=rgb(0.392, 0.584, 0.929,.2), border=NA)
 }
 
-# Start QUESTION 8 Here
-
 # End QUESTION 8 Here
 
 # SECTION 4: Making box plots and violin plots
@@ -222,4 +186,23 @@ ggplot(data= datD, aes(yearPlot,discharge)) +
 #make a violin plot
 ggplot(data= datD, aes(yearPlot,discharge)) + 
   geom_violin()
+
+# Start QUESTION 9 Here
+num_days = 365
+if (leap_year(year)) {
+  num_days = 366
+}
+
+datD$season <- ifelse((datD$decDay/num_days) < 0.25, 'Winter',
+                      ifelse((datD$decDay/num_days) < 0.5, 'Spring',
+                             ifelse((datD$decDay/num_days) < 0.75, 'Summer', 'Autumn')))
+
+ggplot(data=subset(datD, year == 2016), aes(season, discharge)) +
+  geom_violin()
+ggplot(data=subset(datD, year == 2017), aes(season, discharge)) +
+  geom_violin()
+
+
+# End QUESTION 9 Here
+
 
