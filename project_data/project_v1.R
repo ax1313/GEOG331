@@ -27,11 +27,12 @@ fillvalue
 nc_close(nc_data)
 
 air.array[air.array == fillvalue$value] <- NA
-air.slice <- air.array[, , 1000] 
+air.slice <- air.array[, , 400] 
 dim(air.slice)
 
 r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat), 
             crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
 r <- flip(r, direction='y')
-plot(r)
+plot(r,  main="Latitude vs. Longitude",
+     xlab="longitude (degrees)", ylab="latitude (degrees)", xlim = c(-180, 180))
 
