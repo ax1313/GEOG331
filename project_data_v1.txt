@@ -1,4 +1,4 @@
-File Z:/students/axie/project/air.2x2.250.mon.anom.comb.nc (NC_FORMAT_NETCDF4_CLASSIC):
+File Z:/students/axie/project/air.2x2.1200.mon.anom.comb.nc (NC_FORMAT_NETCDF4_CLASSIC):
 
      1 variables (excluding dimension variables):
         float air[lon,lat,time]   (Chunking: [180,90,1])  (Compression: shuffle,level 2)
@@ -9,16 +9,15 @@ File Z:/students/axie/project/air.2x2.250.mon.anom.comb.nc (NC_FORMAT_NETCDF4_CL
             units: degC
             precision: 2
             least_significant_digit: 2
-            var_desc: Air Temperature: 250km smoothing combined
+            var_desc: Air Temperature: 1200km smoothing combined
             dataset: GISS Surface Temperature Analysis (GISTEMP)
             level_desc: Surface
             statistic: Anomaly
             parent_stat: Individual obs
             cell_methods: time: anomaly (monthly from values)
             standard_name: air_temperature_anomaly
-            comments: ERSST V5 used for SST (starting Oct 25 2017 at PSD) from previous ERSST v4
-            actual_range: -20.6532554626465
-             actual_range: 19.0549716949463
+            actual_range: -15.8661699295044
+             actual_range: 15.994119644165
 
      4 dimensions:
         lon  Size:180 
@@ -48,15 +47,16 @@ File Z:/students/axie/project/air.2x2.250.mon.anom.comb.nc (NC_FORMAT_NETCDF4_CL
              actual_range: 81143
         nbnds  Size:2 (no dimvar)
 
-    11 global attributes:
-        title: GISS Surface Temperature Analysis (GISTEMP): 250km smoothing combined land/ocean
+    12 global attributes:
+        title: GISS Surface Temperature Analysis (GISTEMP): 1200km smoothing combined land/ocean
+        comments: This is the 1200km smoothed combined land,ocean version of the dataset on a 2x2 grid. SST dataset used at NASA is now ERSST
         platform: Analysis
         Source: http://data.giss.nasa.gov/gistemp/ source and http://data.giss.nasa.gov/pub/gistemp/ data
         Documentation: http://www.esrl.noaa.gov/psd/data/gridded/data.gistemp.html
+        references: http://www.esrl.noaa.gov/psd/data/gridded/data.gistemp.html
         Conventions: COARDS
         history: created at PSD Jun 2009 by CAS. Converted to chunked, deflated non-packed NetCDF4 2014/06
         dataset_title: GISS Surface Temperature Analysis
-        comments: This is the 1200km smoothed combined land,ocean version of the dataset on a 2x2 grid. SST dataset used at NASA is now ERSST V5
-        References: https://www.psl.noaa.gov/data/gridded/data.gistemp.html
+        References: 
         update_date: 04/2022
-        data_modified: 2022-04-14
+        data_modified: 2022-04-15
