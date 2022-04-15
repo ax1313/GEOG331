@@ -1,7 +1,7 @@
 # https://rpubs.com/boyerag/297592
 
 library(ncdf4) # package for netcdf manipulation
-library(raster) # package for raster manipulation
+library(terra) # package for raster manipulation
 library(rgdal) # package for geospatial analysis
 library(ggplot2) # package for plotting
 
