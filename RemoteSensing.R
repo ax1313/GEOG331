@@ -69,4 +69,4 @@ nt <- terra::extract(ndvi, gtree2, fun = mean, method = 'bilinear')
 plot(nt$ndvi, gtree2$cc.pct, pch = 16, col = "blue")
 
 # plot again but fix the y-axis
-plot(nt$ndvi.gtree2$cc.pct, pch = 16, col = "blue", xlim = c(0,1), ylim = c(0, 1000))
+plot(nt$ndvi, gtree2$cc.pct, pch = 16, col = "blue", xlim = c(0,1))
