@@ -6,7 +6,7 @@ library(terra) # package for raster / terra manipulation
 library(rgdal) # package for geospatial analysis
 library(ggplot2) # package for plotting
 
-nc_data <- nc_open('Z:/students/axie/project/air.2x2.1200.mon.anom.comb.nc')
+nc_data <- nc_open('Z:/students/axie/project/air.mon.mean.v501.nc')
 # Save the print(nc) dump to a text file
 {
   sink('project_data_v1.txt')
@@ -34,5 +34,8 @@ r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat)
             crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
 r <- flip(r, direction='y')
 plot(r,  main="Latitude vs. Longitude",
-     xlab="longitude (degrees)", ylab="latitude (degrees)", ylim = c(50, 90))
+     xlab="longitude (degrees)", ylab="latitude (degrees)")
 
+
+#plot(r,  main="Latitude vs. Longitude",
+#     xlab="longitude (degrees)", ylab="latitude (degrees)", ylim = c(50, 90))

@@ -1,62 +1,55 @@
-File Z:/students/axie/project/air.2x2.1200.mon.anom.comb.nc (NC_FORMAT_NETCDF4_CLASSIC):
+File Z:/students/axie/project/air.mon.mean.v501.nc (NC_FORMAT_NETCDF4_CLASSIC):
 
      1 variables (excluding dimension variables):
-        float air[lon,lat,time]   (Chunking: [180,90,1])  (Compression: shuffle,level 2)
-            long_name: Monthly Average Temperature Anomalies
-            valid_range: -25
-             valid_range: 25
-            missing_value: 9999
+        float air[lon,lat,time]   (Chunking: [720,360,1])  (Compression: shuffle,level 2)
+            long_name: Monthly mean of surface temperature
+            missing_value: -9.96920996838687e+36
             units: degC
-            precision: 2
-            least_significant_digit: 2
-            var_desc: Air Temperature: 1200km smoothing combined
-            dataset: GISS Surface Temperature Analysis (GISTEMP)
+            var_desc: Air Temperature
             level_desc: Surface
-            statistic: Anomaly
-            parent_stat: Individual obs
-            cell_methods: time: anomaly (monthly from values)
-            standard_name: air_temperature_anomaly
-            actual_range: -15.8661699295044
-             actual_range: 15.994119644165
+            statistic: Mean
+            parent_stat: Other
+            standard_name: air_temperature
+            cell_methods: time: mean
+            valid_range: -90
+             valid_range: 50
+            actual_range: -81.5
+             actual_range: 43.9000015258789
+            dataset: Univ. of Delaware Precipitation and Air Temp v5.01
 
-     4 dimensions:
-        lon  Size:180 
-            units: degrees_east
-            long_name: Longitude
-            actual_range: 1
-             actual_range: 359
-            axis: X
-            coordinate_defines: center
-            standard_name: longitude
-        lat  Size:90 
-            units: degrees_north
+     3 dimensions:
+        lat  Size:360 
+            actual_range: 89.75
+             actual_range: -89.75
             long_name: Latitude
-            actual_range: 89
-             actual_range: -89
+            units: degrees_north
             axis: Y
-            coordinate_defines: center
             standard_name: latitude
-        time  Size:1707   *** is unlimited *** 
-            units: days since 1800-1-1 00:00:00
+            coordinate_defines: center
+        lon  Size:720 
+            long_name: Longitude
+            units: degrees_east
+            axis: X
+            standard_name: longitude
+            actual_range: 0.25
+             actual_range: 359.75
+            coordinate_defines: center
+        time  Size:1416   *** is unlimited *** 
             long_name: Time
+            units: hours since 1900-1-1 0:0:0
             delta_t: 0000-01-00 00:00:00
             avg_period: 0000-01-00 00:00:00
-            standard_name: time
             axis: T
-            actual_range: 29219
-             actual_range: 81143
-        nbnds  Size:2 (no dimvar)
+            standard_name: time
+            coordinate_defines: start
+            actual_range: 0
+             actual_range: 1033632
 
-    12 global attributes:
-        title: GISS Surface Temperature Analysis (GISTEMP): 1200km smoothing combined land/ocean
-        comments: This is the 1200km smoothed combined land,ocean version of the dataset on a 2x2 grid. SST dataset used at NASA is now ERSST
-        platform: Analysis
-        Source: http://data.giss.nasa.gov/gistemp/ source and http://data.giss.nasa.gov/pub/gistemp/ data
-        Documentation: http://www.esrl.noaa.gov/psd/data/gridded/data.gistemp.html
-        references: http://www.esrl.noaa.gov/psd/data/gridded/data.gistemp.html
-        Conventions: COARDS
-        history: created at PSD Jun 2009 by CAS. Converted to chunked, deflated non-packed NetCDF4 2014/06
-        dataset_title: GISS Surface Temperature Analysis
-        References: 
-        update_date: 04/2022
-        data_modified: 2022-04-15
+    7 global attributes:
+        Conventions: CF-1.0
+        history: created 2/2016 by CAS NOAA/ESRL PSD
+        version: 5.01
+        dataset_title: Terrestrial Air Temperature and Precipitation: 1900-2017 Gridded Monthly Time Series
+        Source: http://climate.geog.udel.edu/~climate/html_pages/download.html
+        References: https://www.psl.noaa.gov/data/gridded/data.UDel_AirT_Precip.html
+        title: Terrestrial Air Temperature and Precipitation: V5.01
