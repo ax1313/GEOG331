@@ -27,7 +27,7 @@ fillvalue
 nc_close(nc_data)
 
 air.array[air.array == fillvalue$value] <- NA
-air.slice <- air.array[, , 3] 
+air.slice <- air.array[, , 890] 
 dim(air.slice)
 
 r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat), 
@@ -51,15 +51,29 @@ ggplot(data=toolik_df, aes(x=time, y=air_temp, group=1)) +
   ggtitle("Temperature at Toolik Lake Station") +     # Set title
   theme_bw() # use the black and white theme
 
-air.slice.last <- air.array[, ,891]
+# Temp graph for Hamilton
+hamilton_lon <- 180 - 75.5394
+hamilton_lat <- 42.8165
+hamilton_series <- extract(r_brick, SpatialPoints(cbind(hamilton_lon,hamilton_lat)), method='simple')
+
+hamilton_df <- data.frame(time= nc_data[["dim"]][["time"]][["vals"]], air_temp=t(hamilton_series))
+ggplot(data=hamilton_df, aes(x=time, y=air_temp, group=1)) +
+  geom_line() + # make this a line plot
+  ggtitle("Temperature at Hamilton, NY") +     # Set title
+  theme_bw() # use the black and white theme
+
+
+air.slice.last <- air.array[, ,513]
 air.diff <- air.slice.last - air.slice
 
-r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat), 
+r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat),
                  crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
 
 r_diff <- flip(r_diff, direction='y')
 
-plot(r_diff)
+plot(r_diff, ylim = c(60, 90))
+
+v <- getValues(r_diff)
 
 #plot(r,  main="Latitude vs. Longitude",
 #     xlab="longitude (degrees)", ylab="latitude (degrees)", ylim = c(50, 90))
