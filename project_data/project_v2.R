@@ -63,7 +63,7 @@ ggplot(data=hamilton_df, aes(x=time, y=air_temp, group=1)) +
   theme_bw() # use the black and white theme
 
 
-air.slice.last <- air.array[, ,800]
+air.slice.last <- air.array[, ,767]
 air.diff <- air.slice.last - air.slice
 
 r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat),
@@ -71,7 +71,8 @@ r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(
 
 r_diff <- flip(r_diff, direction='y')
 
-plot(r_diff, ylim = c(60, 90))
+# plot(r_diff, ylim = c(60, 90))
+plot(r_diff)
 
 v <- getValues(r_diff)
 
