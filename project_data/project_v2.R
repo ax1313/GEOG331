@@ -1,5 +1,7 @@
 # https://rpubs.com/boyerag/297592
 
+# dataset used from: https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.surface.html
+
 library(ncdf4) # package for netcdf manipulation
 library(raster) # eventually replace with terra
 library(terra) # package for raster / terra manipulation
@@ -27,7 +29,7 @@ fillvalue
 nc_close(nc_data)
 
 air.array[air.array == fillvalue$value] <- NA
-air.slice <- air.array[, , 890] 
+air.slice <- air.array[, , 3] 
 dim(air.slice)
 
 r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat), 
@@ -63,7 +65,7 @@ ggplot(data=hamilton_df, aes(x=time, y=air_temp, group=1)) +
   theme_bw() # use the black and white theme
 
 
-air.slice.last <- air.array[, ,767]
+air.slice.last <- air.array[, , 612]
 air.diff <- air.slice.last - air.slice
 
 r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat),
