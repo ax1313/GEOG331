@@ -1,91 +1,61 @@
-File Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc (NC_FORMAT_NETCDF4):
+File Z:/students/axie/project/air.mon.mean.nc (NC_FORMAT_NETCDF4_CLASSIC):
 
-     4 variables (excluding dimension variables):
-        unsigned byte seaice_conc[longitude,latitude,time]   (Chunking: [1440,240,1])  (Compression: shuffle,level 4)
-            short_name: Concentration
-            long_name: Sea_Ice_Concentration
-            standard_name: sea_ice_area_fraction
-            units: 1
-            comment: Values are percent-concentration from 0 to 100.  Sentinel value of 120 in the concentration field indicates land
-        unsigned byte seaice_source[longitude,latitude,time]   (Chunking: [1440,240,1])  (Compression: shuffle,level 4)
-            short_name: Seaice Source
-            long_name: Coded_Source_of_Sea_Ice_Concentration
-            standard_name: source
-            units: 1
-            name_source_00: Land
-            name_source_01: Satellite passive microwave
-            name_source_02: Danish Meteorological Institute
-            name_source_03: Dehn
-            name_source_04: NAVO yearbooks
-            name_source_05: AARI
-            name_source_06: Hill
-            name_source_07: Whaling Records - Complete Sea Ice
-            name_source_08: Whaling Records - Partial Sea Ice
-            name_source_09: Whaling Records - No Sea Ice
-            name_source_10: DMI yearbook narrative
-            name_source_11: ACSYS
-            name_source_12: Walsh and Johnson
-            name_source_13: JMA charts
-            name_source_14: Kelly ice extent grids
-            name_source_15: Landmask correction fill
-            name_source_16: Change-of-landmask ocean
-            name_source_17: Analog fill - spatial
-            name_source_18: Analog fill - temporal
-        unsigned byte LandRegion_mask[longitude,latitude]   (Chunking: [1440,240])  (Compression: shuffle,level 4)
-            short_name: LandRegion Mask
-            long_name: Land_and_Ocean_Region_Mask
-            standard_name: source
-            units: 1
-            name_regionmask_00: Ocean, no region specified
-            name_regionmask_01: Beaufort Sea
-            name_regionmask_02: Chukchi Sea
-            name_regionmask_03: East Siberian Sea
-            name_regionmask_04: Laptev Sea
-            name_regionmask_05: Kara Sea
-            name_regionmask_06: Barents Sea
-            name_regionmask_07: Greenland Sea
-            name_regionmask_08: Baffin Bay and Gulf of St Lawrence, on polar stereo grid
-            name_regionmask_09: Canadian Archipelago
-            name_regionmask_10: Hudson Bay
-            name_regionmask_11: Central Arctic
-            name_regionmask_12: Bering Sea
-            name_regionmask_13: Baltic Sea
-            name_regionmask_14: Sea of Okhotsk
-            name_regionmask_15: Yellow Sea, on polar stereo grid
-            name_regionmask_16: Cook Inlet, on polar stereo grid
-            name_regionmask_17: Yellow Sea, off polar stereo grid
-            name_regionmask_18: Baffin Bay and Gulf of St Lawrence, off polar stereo grid
-            name_regionmask_19: Cook Inlet, off polar stereo grid
-            name_regionmask_20: Land
-            name_regionmask_21: Unnamed ocean on polar stereo grid
-        float Gridcell_Area[latitude]   (Chunking: [240])  (Compression: shuffle,level 4)
-            short_name: Grid_Cell_Area
-            long_name: Grid_Cell_Area
-            standard_name: cell_area
-            units: km^2
+     1 variables (excluding dimension variables):
+        float air[lon,lat,time]   (Chunking: [144,73,1])  (Compression: shuffle,level 2)
+            long_name: Monthly Mean Air Temperature at sigma level 0.995
+            valid_range: -2000
+             valid_range: 2000
+            units: degC
+            add_offset: 0
+            scale_factor: 1
+            missing_value: -9.96920996838687e+36
+            precision: 1
+            least_significant_digit: 0
+            var_desc: Air Temperature
+            level_desc: Surface
+            statistic: Mean
+            parent_stat: Individual Obs
+            dataset: NCEP Reanalysis Derived Products
+            actual_range: -73.7800064086914
+             actual_range: 42.1459503173828
 
      3 dimensions:
-        latitude  Size:240 
-            standard_name: latitude
+        lat  Size:73 
             units: degrees_north
+            actual_range: 90
+             actual_range: -90
+            long_name: Latitude
+            standard_name: latitude
             axis: Y
-            valid_min: 30
-            valid_max: 90
-        longitude  Size:1440 
-            standard_name: longitude
+        lon  Size:144 
             units: degrees_east
+            long_name: Longitude
+            actual_range: 0
+             actual_range: 357.5
+            standard_name: longitude
             axis: X
-            valid_min: 0
-            valid_max: 360
-        time  Size:2016   *** is unlimited *** 
+        time  Size:891   *** is unlimited *** 
+            long_name: Time
+            delta_t: 0000-01-00 00:00:00
+            avg_period: 0000-01-00 00:00:00
+            prev_avg_period: 0000-00-01 00:00:00
             standard_name: time
-            units: days since 1850-01-01
-            calendar: julian
             axis: T
+            units: hours since 1800-01-01 00:00:0.0
+            actual_range: 1297320
+             actual_range: 1947432
 
-    5 global attributes:
-        version: 2.0
-        release_date: February 28, 2019
-        Conventions: CF-1.4
-        citation: https://doi.org/10.1111/j.1931-0846.2016.12195.x
-        dataset_doi: https://nsidc.org/data/g10010
+    8 global attributes:
+        description: Data from NCEP initialized reanalysis (4x/day).  These are the 0.9950 sigma level values
+        platform: Model
+        Conventions: COARDS
+        NCO: 20121012
+        history: Thu May  4 20:11:16 2000: ncrcat -d time,0,623 /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc air.mon.mean.nc
+Thu May  4 18:11:50 2000: ncrcat -d time,0,622 /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc ./surface/air.mon.mean.nc
+Mon Jul  5 23:47:18 1999: ncrcat ./air.mon.mean.nc /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc /dm/dmwork/nmc.rean.ingest/combinedMMs/surface/air.mon.mean.nc
+/home/hoop/crdc/cpreanjuke2farm/cpreanjuke2farm Mon Oct 23 21:04:20 1995 from air.sfc.gauss.85.nc
+created 95/03/13 by Hoop (netCDF2.3)
+Converted to chunked, deflated non-packed NetCDF4 2014/09
+        title: monthly mean air.sig995 from the NCEP Reanalysis
+        dataset_title: NCEP-NCAR Reanalysis 1
+        References: http://www.psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.html
