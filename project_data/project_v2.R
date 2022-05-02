@@ -71,7 +71,7 @@ air.diff <- air.slice.last - air.slice
 r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat),
                  crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
 
-r_diff <- flip(r_diff, direction='y')
+r_diff <- flip(r_diff, direction='y') # is this needed?
 
 # plot(r_diff, ylim = c(60, 90))
 plot(r_diff)

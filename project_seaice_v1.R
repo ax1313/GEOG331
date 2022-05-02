@@ -38,3 +38,19 @@ r <- raster(t(seaice.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(l
 # r <- flip(r, direction='y')
 plot(r,  main="Latitude vs. Longitude",
      xlab="longitude (degrees)", ylab="latitude (degrees)")
+
+r_brick <- brick(seaice.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max(lon), 
+                 crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
+
+# r_brick <- flip(t(r_brick), direction='y')
+
+toolik_lon <- 360-149.5975
+toolik_lat <- 68.6275
+toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
+
+toolik_df <- data.frame(time= nc_data[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
+ggplot(data=toolik_df, aes(x=time, y=air_temp, group=1)) +
+  geom_line() + # make this a line plot
+  ggtitle("Temperature at Toolik Lake Station") +     # Set title
+  theme_bw() # use the black and white theme
+
