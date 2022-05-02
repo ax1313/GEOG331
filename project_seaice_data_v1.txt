@@ -1,0 +1,91 @@
+File Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc (NC_FORMAT_NETCDF4):
+
+     4 variables (excluding dimension variables):
+        unsigned byte seaice_conc[longitude,latitude,time]   (Chunking: [1440,240,1])  (Compression: shuffle,level 4)
+            short_name: Concentration
+            long_name: Sea_Ice_Concentration
+            standard_name: sea_ice_area_fraction
+            units: 1
+            comment: Values are percent-concentration from 0 to 100.  Sentinel value of 120 in the concentration field indicates land
+        unsigned byte seaice_source[longitude,latitude,time]   (Chunking: [1440,240,1])  (Compression: shuffle,level 4)
+            short_name: Seaice Source
+            long_name: Coded_Source_of_Sea_Ice_Concentration
+            standard_name: source
+            units: 1
+            name_source_00: Land
+            name_source_01: Satellite passive microwave
+            name_source_02: Danish Meteorological Institute
+            name_source_03: Dehn
+            name_source_04: NAVO yearbooks
+            name_source_05: AARI
+            name_source_06: Hill
+            name_source_07: Whaling Records - Complete Sea Ice
+            name_source_08: Whaling Records - Partial Sea Ice
+            name_source_09: Whaling Records - No Sea Ice
+            name_source_10: DMI yearbook narrative
+            name_source_11: ACSYS
+            name_source_12: Walsh and Johnson
+            name_source_13: JMA charts
+            name_source_14: Kelly ice extent grids
+            name_source_15: Landmask correction fill
+            name_source_16: Change-of-landmask ocean
+            name_source_17: Analog fill - spatial
+            name_source_18: Analog fill - temporal
+        unsigned byte LandRegion_mask[longitude,latitude]   (Chunking: [1440,240])  (Compression: shuffle,level 4)
+            short_name: LandRegion Mask
+            long_name: Land_and_Ocean_Region_Mask
+            standard_name: source
+            units: 1
+            name_regionmask_00: Ocean, no region specified
+            name_regionmask_01: Beaufort Sea
+            name_regionmask_02: Chukchi Sea
+            name_regionmask_03: East Siberian Sea
+            name_regionmask_04: Laptev Sea
+            name_regionmask_05: Kara Sea
+            name_regionmask_06: Barents Sea
+            name_regionmask_07: Greenland Sea
+            name_regionmask_08: Baffin Bay and Gulf of St Lawrence, on polar stereo grid
+            name_regionmask_09: Canadian Archipelago
+            name_regionmask_10: Hudson Bay
+            name_regionmask_11: Central Arctic
+            name_regionmask_12: Bering Sea
+            name_regionmask_13: Baltic Sea
+            name_regionmask_14: Sea of Okhotsk
+            name_regionmask_15: Yellow Sea, on polar stereo grid
+            name_regionmask_16: Cook Inlet, on polar stereo grid
+            name_regionmask_17: Yellow Sea, off polar stereo grid
+            name_regionmask_18: Baffin Bay and Gulf of St Lawrence, off polar stereo grid
+            name_regionmask_19: Cook Inlet, off polar stereo grid
+            name_regionmask_20: Land
+            name_regionmask_21: Unnamed ocean on polar stereo grid
+        float Gridcell_Area[latitude]   (Chunking: [240])  (Compression: shuffle,level 4)
+            short_name: Grid_Cell_Area
+            long_name: Grid_Cell_Area
+            standard_name: cell_area
+            units: km^2
+
+     3 dimensions:
+        latitude  Size:240 
+            standard_name: latitude
+            units: degrees_north
+            axis: Y
+            valid_min: 30
+            valid_max: 90
+        longitude  Size:1440 
+            standard_name: longitude
+            units: degrees_east
+            axis: X
+            valid_min: 0
+            valid_max: 360
+        time  Size:2016   *** is unlimited *** 
+            standard_name: time
+            units: days since 1850-01-01
+            calendar: julian
+            axis: T
+
+    5 global attributes:
+        version: 2.0
+        release_date: February 28, 2019
+        Conventions: CF-1.4
+        citation: https://doi.org/10.1111/j.1931-0846.2016.12195.x
+        dataset_doi: https://nsidc.org/data/g10010

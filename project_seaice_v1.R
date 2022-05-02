@@ -12,7 +12,7 @@ library(ggplot2) # package for plotting
 nc_data <- nc_open('Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc')
 # Save the print(nc) dump to a text file
 {
-  sink('project_data_v1.txt')
+  sink('project_seaice_data_v1.txt')
   print(nc_data)
   sink()
 }
