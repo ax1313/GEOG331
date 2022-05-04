@@ -9,25 +9,25 @@ library(terra) # package for raster / terra manipulation
 library(rgdal) # package for geospatial analysis
 library(ggplot2) # package for plotting
 
-nc_data <- nc_open('Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc')
+nc_data_seaice <- nc_open('Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc')
 # Save the print(nc) dump to a text file
 {
   sink('project_seaice_data_v1.txt')
-  print(nc_data)
+  print(nc_data_seaice)
   sink()
 }
 
-lon <- ncvar_get(nc_data, "longitude")
-lat <- ncvar_get(nc_data, "latitude", verbose = F)
-t <- ncvar_get(nc_data, "time")
+lon <- ncvar_get(nc_data_seaice, "longitude")
+lat <- ncvar_get(nc_data_seaice, "latitude", verbose = F)
+t <- ncvar_get(nc_data_seaice, "time")
 
-seaice.array <- ncvar_get(nc_data, "seaice_conc") # store the data in a 3-dimensional array
+seaice.array <- ncvar_get(nc_data_seaice, "seaice_conc") # store the data in a 3-dimensional array
 dim(seaice.array) 
 
-fillvalue <- ncatt_get(nc_data, "seaice_conc", "_FillValue")
+fillvalue <- ncatt_get(nc_data_seaice, "seaice_conc", "_FillValue")
 fillvalue
 
-nc_close(nc_data)
+nc_close(nc_data_seaice)
 
 seaice.array[seaice.array == fillvalue$value] <- NA
 seaice.slice <- seaice.array[, , 3] 
@@ -48,7 +48,7 @@ toolik_lon <- 360-149.5975
 toolik_lat <- 68.6275
 toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
 
-toolik_df <- data.frame(time= nc_data[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
+toolik_df <- data.frame(time= nc_data_seaice[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
 ggplot(data=toolik_df, aes(x=time, y=air_temp, group=1)) +
   geom_line() + # make this a line plot
   ggtitle("Temperature at Toolik Lake Station") +     # Set title
