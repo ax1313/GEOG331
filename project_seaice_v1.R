@@ -39,14 +39,18 @@ r <- raster(t(seaice.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(l
 plot(r,  main="Latitude vs. Longitude",
      xlab="longitude (degrees)", ylab="latitude (degrees)")
 
-r_brick <- brick(seaice.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max(lon), 
+r_brick_seaice <- brick(seaice.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max(lon), 
                  crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
 
-# r_brick <- flip(t(r_brick), direction='y')
+# r_brick_seaice <- flip(t(r_brick_seaice), direction='y')
 
-toolik_lon <- 200 #360-149.5975
-toolik_lat <- 50 #68.6275
-toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
+# r_brick_seaice <- rotate(r_brick_seaice)
+
+# Switch latitude and longitude
+
+toolik_lon <- 80 #360-149.5975
+toolik_lat <- 68.6275
+toolik_series <- extract(r_brick_seaice, SpatialPoints(cbind(toolik_lon, toolik_lat)), method='simple')
 
 toolik_df <- data.frame(time= nc_data_seaice[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
 ggplot(data=toolik_df, aes(x=time, y=air_temp, group=1)) +

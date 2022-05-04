@@ -43,7 +43,7 @@ r_brick <- brick(air.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max(lo
 
 r_brick <- flip(t(r_brick), direction='y')
 
-toolik_lon <- 180-149.5975
+toolik_lon <- 180 - 76 # 180-149.5975
 toolik_lat <- 68.6275
 toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
 
@@ -66,7 +66,8 @@ ggplot(data=hamilton_df, aes(x=time, y=air_temp, group=1)) +
 
 
 air.slice.last <- air.array[, , 612]
-air.diff <- air.slice.last - air.slice
+air.slice.first <- air.array[, , 15]
+air.diff <- air.slice.last - air.slice.first
 
 r_diff <- raster(t(air.diff), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat),
                  crs=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0"))
