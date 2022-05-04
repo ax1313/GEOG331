@@ -44,8 +44,8 @@ r_brick <- brick(seaice.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max
 
 # r_brick <- flip(t(r_brick), direction='y')
 
-toolik_lon <- 360-149.5975
-toolik_lat <- 68.6275
+toolik_lon <- 200 #360-149.5975
+toolik_lat <- 50 #68.6275
 toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
 
 toolik_df <- data.frame(time= nc_data_seaice[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
