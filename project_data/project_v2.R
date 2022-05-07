@@ -1,4 +1,5 @@
 # https://rpubs.com/boyerag/297592
+# https://ropensci.org/blog/2019/11/05/tidync/
 
 # dataset used from: https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.surface.html
 
