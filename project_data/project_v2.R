@@ -1,5 +1,6 @@
 # https://rpubs.com/boyerag/297592
 # https://ropensci.org/blog/2019/11/05/tidync/
+# https://pjbartlein.github.io/REarthSysSci/netCDF.html
 
 # dataset used from: https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.surface.html
 
@@ -66,7 +67,7 @@ ggplot(data=hamilton_df, aes(x=time, y=air_temp, group=1)) +
   theme_bw() # use the black and white theme
 
 
-air.slice.last <- air.array[, , 612]
+air.slice.last <- air.array[, , 21]
 air.slice.first <- air.array[, , 15]
 air.diff <- air.slice.last - air.slice.first
 

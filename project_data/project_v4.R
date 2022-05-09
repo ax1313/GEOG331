@@ -38,3 +38,14 @@ r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat)
 r <- flip(r, direction='y')
 plot(r,  main="Latitude vs. Longitude",
      xlab="longitude (degrees)", ylab="latitude (degrees)")
+
+toolik_lon <- 180-149.5975
+toolik_lat <- 68.6275
+toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
+
+toolik_df <- data.frame(time= nc_data[["dim"]][["time"]][["vals"]], air_temp=t(toolik_series))
+ggplot(data=toolik_df, aes(x=time, y=air_temp, group=1)) +
+  geom_line() + # make this a line plot
+  ggtitle("Temperature at Toolik Lake Station") +     # Set title
+  theme_bw() # use the black and white theme
+

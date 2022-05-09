@@ -1,26 +1,25 @@
-File Z:/students/axie/project/air.sig995.2019.nc (NC_FORMAT_NETCDF4_CLASSIC):
+File Z:/students/axie/project/air.mon.mean.nc (NC_FORMAT_NETCDF4_CLASSIC):
 
-     2 variables (excluding dimension variables):
+     1 variables (excluding dimension variables):
         float air[lon,lat,time]   (Chunking: [144,73,1])  (Compression: shuffle,level 2)
-            long_name: mean Daily Air temperature at sigma level 995
-            units: degK
-            precision: 2
-            least_significant_digit: 1
-            GRIB_id: 11
-            GRIB_name: TMP
-            var_desc: Air temperature
-            dataset: NCEP Reanalysis Daily Averages
+            long_name: Monthly Mean Air Temperature at sigma level 0.995
+            valid_range: -2000
+             valid_range: 2000
+            units: degC
+            add_offset: 0
+            scale_factor: 1
+            missing_value: -9.96920996838687e+36
+            precision: 1
+            least_significant_digit: 0
+            var_desc: Air Temperature
             level_desc: Surface
             statistic: Mean
             parent_stat: Individual Obs
-            missing_value: -9.96920996838687e+36
-            valid_range: 185.160003662109
-             valid_range: 331.160003662109
-            actual_range: 191.399993896484
-             actual_range: 317.024993896484
-        double time_bnds[nbnds,time]   (Chunking: [2,1])  (Compression: shuffle,level 2)
+            dataset: NCEP Reanalysis Derived Products
+            actual_range: -73.7800064086914
+             actual_range: 42.1459503173828
 
-     4 dimensions:
+     3 dimensions:
         lat  Size:73 
             units: degrees_north
             actual_range: 90
@@ -35,24 +34,28 @@ File Z:/students/axie/project/air.sig995.2019.nc (NC_FORMAT_NETCDF4_CLASSIC):
              actual_range: 357.5
             standard_name: longitude
             axis: X
-        time  Size:365   *** is unlimited *** 
+        time  Size:891   *** is unlimited *** 
             long_name: Time
-            delta_t: 0000-00-01 00:00:00
+            delta_t: 0000-01-00 00:00:00
+            avg_period: 0000-01-00 00:00:00
+            prev_avg_period: 0000-00-01 00:00:00
             standard_name: time
             axis: T
             units: hours since 1800-01-01 00:00:0.0
-            avg_period: 0000-00-01 00:00:00
-            coordinate_defines: start
-            actual_range: 1919712
-             actual_range: 1928448
-        nbnds  Size:2 (no dimvar)
+            actual_range: 1297320
+             actual_range: 1947432
 
-    7 global attributes:
-        Conventions: COARDS
-        title: mean daily NMC reanalysis (2014)
-        history: created 2017/12 by Hoop (netCDF2.3)
-        description: Data is from NMC initialized reanalysis
-(4x/day).  These are the 0.9950 sigma level values.
+    8 global attributes:
+        description: Data from NCEP initialized reanalysis (4x/day).  These are the 0.9950 sigma level values
         platform: Model
+        Conventions: COARDS
+        NCO: 20121012
+        history: Thu May  4 20:11:16 2000: ncrcat -d time,0,623 /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc air.mon.mean.nc
+Thu May  4 18:11:50 2000: ncrcat -d time,0,622 /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc ./surface/air.mon.mean.nc
+Mon Jul  5 23:47:18 1999: ncrcat ./air.mon.mean.nc /Datasets/ncep.reanalysis.derived/surface/air.mon.mean.nc /dm/dmwork/nmc.rean.ingest/combinedMMs/surface/air.mon.mean.nc
+/home/hoop/crdc/cpreanjuke2farm/cpreanjuke2farm Mon Oct 23 21:04:20 1995 from air.sfc.gauss.85.nc
+created 95/03/13 by Hoop (netCDF2.3)
+Converted to chunked, deflated non-packed NetCDF4 2014/09
+        title: monthly mean air.sig995 from the NCEP Reanalysis
         dataset_title: NCEP-NCAR Reanalysis 1
-        References: http://www.psl.noaa.gov/data/gridded/data.ncep.reanalysis.html
+        References: http://www.psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.html
