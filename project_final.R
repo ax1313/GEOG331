@@ -24,18 +24,19 @@ fillvalue <- ncatt_get(nc_mean_temp, "air", "_FillValue")
 nc_close(nc_mean_temp)
 
 # Loop during January
-month_val <- 13 # 13 for January, 16 for April, 19 for July, 22 for October
-air.first <- air.array[, , 1] # 1 for January, 4 for April, 7 for July, 10 for October
+jan_val <- 13 # 13 for January, 16 for April, 19 for July, 22 for October
+air.jan.first <- air.array[, , 1] # 1 for January, 4 for April, 7 for July, 10 for October
 lat_index <- 6
 lon_index <- round((180 - 100.1140) / 2.5) + 1
-temp_month = rep()
-while (month_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
-  air.last <- air.array[, , month_val] # place loop value here
-  air.diff <- air.last - air.first
-  temp_month <- append(temp_month, air.diff[lon_index, lat_index])
-  month_val = month_val + 12
+temp_jan = rep()
+while (jan_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
+  air.jan.last <- air.array[, , jan_val] # place loop value here
+  air.diff <- air.jan.last - air.jan.first
+  temp_jan <- append(temp_jan, air.diff[lon_index, lat_index])
+  jan_val = jan_val + 12
 }
-
+years = 1948:2021
+plot(years, temp_jan, xlab = "year", ylab = "temperature (degC)", main = "January Temperatures in Arctic Center")
 
 
 # Temperature (daily) data
