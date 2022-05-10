@@ -28,6 +28,7 @@ dim(air.array)
 fillvalue <- ncatt_get(nc_data, "air", "_FillValue")
 fillvalue
 
+
 nc_close(nc_data)
 
 air.array[air.array == fillvalue$value] <- NA
