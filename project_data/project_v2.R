@@ -31,7 +31,7 @@ fillvalue
 nc_close(nc_data)
 
 air.array[air.array == fillvalue$value] <- NA
-air.slice <- air.array[, , 3] 
+air.slice <- air.array[, , 32] 
 dim(air.slice)
 
 r <- raster(t(air.slice), xmn=min(lon), xmx=max(lon), ymn=min(lat), ymx=max(lat), 
@@ -45,7 +45,7 @@ r_brick <- brick(air.array, xmn=min(lat), xmx=max(lat), ymn=min(lon), ymx=max(lo
 
 r_brick <- flip(t(r_brick), direction='y')
 
-toolik_lon <- 180 - 76 # 180-149.5975
+toolik_lon <- 180 - 149.5975
 toolik_lat <- 68.6275
 toolik_series <- extract(r_brick, SpatialPoints(cbind(toolik_lon,toolik_lat)), method='simple')
 
