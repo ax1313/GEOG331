@@ -194,7 +194,7 @@ max_years <- append(max_years, years_oct[which.max(temp_oct)])
 max_years <- append(max_years, years[which.max(temp_nov)])
 max_years <- append(max_years, years[which.max(temp_dec)])
 
-# A
+# Also use which.min to find minimum years and find pattern
 
 # Temperature (daily) data
 
