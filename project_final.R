@@ -26,6 +26,8 @@ nc_close(nc_mean_temp)
 lat_index <- 6
 lon_index <- round((180 - 100.1140) / 2.5) + 1
 
+# Turn this code into a function
+
 # Loop during January
 jan_val <- 13 # 13 for January, 16 for April, 19 for July, 22 for October
 air.jan.first <- air.array[, , 1] # 1 for January, 4 for April, 7 for July, 10 for October
@@ -38,6 +40,19 @@ while (jan_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
 }
 years_jan = 1949:2022
 plot(years_jan, temp_jan, xlab = "year", ylab = "temperature (degC)", main = "January Temperatures in Arctic Center")
+
+# Loop during February
+feb_val <- 14 # 13 for January, 16 for April, 19 for July, 22 for October
+air.feb.first <- air.array[, , 2] # 1 for January, 4 for April, 7 for July, 10 for October
+temp_feb = rep()
+while (feb_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
+  air.feb.last <- air.array[, , feb_val] # place loop value here
+  air.diff <- air.feb.last - air.feb.first
+  temp_feb <- append(temp_feb, air.diff[lon_index, lat_index])
+  feb_val = feb_val + 12
+}
+years_jan = 1949:2022
+plot(years_jan, temp_feb, xlab = "year", ylab = "temperature (degC)", main = "February Temperatures in Arctic Center")
 
 # Loop during April
 apr_val <- 16
@@ -76,8 +91,109 @@ while (oct_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
   temp_oct <- append(temp_oct, air.diff[lon_index, lat_index])
   oct_val = oct_val + 12
 }
-years = 1951:2021
-plot(years, temp_oct, xlab = "year", ylab = "temp difference (degC)", main = "October Temperatures in Arctic Center")
+years_oct = 1951:2021
+plot(years_oct, temp_oct, xlab = "year", ylab = "temp difference (degC)", main = "October Temperatures in Arctic Center")
+
+
+# Residual plot for October
+fit <- lm(temp_oct ~ years)
+abline(fit, col = "red")
+
+# histogram of residuals
+hist(summary(fit)$residuals,
+     main = "Regression Residuals",
+     xlab = "Residual",
+     col = "purple")
+
+# shapiro wilks test
+shapiro.test(summary(fit)$residuals)
+
+# qq plot
+qqnorm(summary(fit)$residuals, pch = 16)
+
+qqline(summary(fit)$residuals, datax = FALSE, distribution = qnorm,
+       probs = c(0.25, 0.75), qtype = 7, pch = 16)
+
+# Loop during November
+nov_val <- 23
+air.nov.first <- air.array[, , 11]
+temp_nov = rep()
+while (nov_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
+  air.nov.last <- air.array[, , nov_val] # place loop value here
+  air.diff <- air.nov.last - air.nov.first
+  temp_nov <- append(temp_nov, air.diff[lon_index, lat_index])
+  nov_val = nov_val + 12
+}
+years = 1949:2021
+plot(years, temp_nov, xlab = "year", ylab = "temp difference (degC)", main = "November Temperatures in Arctic Center")
+
+# Residual plot for November
+fit <- lm(temp_nov ~ years)
+abline(fit, col = "red")
+
+# histogram of residuals
+hist(summary(fit)$residuals,
+     main = "Regression Residuals",
+     xlab = "Residual",
+     col = "purple")
+
+# shapiro wilks test
+shapiro.test(summary(fit)$residuals)
+
+# qq plot
+qqnorm(summary(fit)$residuals, pch = 16)
+
+qqline(summary(fit)$residuals, datax = FALSE, distribution = qnorm,
+       probs = c(0.25, 0.75), qtype = 7, pch = 16)
+
+# Loop during December
+dec_val <- 24
+air.dec.first <- air.array[, , 12]
+temp_dec = rep()
+while (dec_val <= nc_mean_temp[["dim"]][["time"]][["len"]]) {
+  air.dec.last <- air.array[, , dec_val] # place loop value here
+  air.diff <- air.dec.last - air.dec.first
+  temp_dec <- append(temp_dec, air.diff[lon_index, lat_index])
+  dec_val = dec_val + 12
+}
+years = 1949:2021
+plot(years, temp_dec, xlab = "year", ylab = "temp difference (degC)", main = "December Temperatures in Arctic Center")
+
+# Residual plot for December
+fit <- lm(temp_dec ~ years)
+abline(fit, col = "red")
+
+# histogram of residuals
+hist(summary(fit)$residuals,
+     main = "Regression Residuals",
+     xlab = "Residual",
+     col = "purple")
+
+# shapiro wilks test
+shapiro.test(summary(fit)$residuals)
+
+# qq plot
+qqnorm(summary(fit)$residuals, pch = 16)
+
+qqline(summary(fit)$residuals, datax = FALSE, distribution = qnorm,
+       probs = c(0.25, 0.75), qtype = 7, pch = 16)
+
+# Find year of maximum temperature
+max_years = rep()
+max_years <- append(max_years, years_jan[which.max(temp_jan)])
+max_years <- append(max_years, years_jan[which.max(temp_feb)])
+# March?
+max_years <- append(max_years, years[which.max(temp_apr)])
+# May?
+# June?
+max_years <- append(max_years, years[which.max(temp_july)])
+# August?
+# September?
+max_years <- append(max_years, years_oct[which.max(temp_oct)])
+max_years <- append(max_years, years[which.max(temp_nov)])
+max_years <- append(max_years, years[which.max(temp_dec)])
+
+# A
 
 # Temperature (daily) data
 
