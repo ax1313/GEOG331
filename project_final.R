@@ -24,8 +24,8 @@ fillvalue <- ncatt_get(nc_mean_temp, "air", "_FillValue")
 nc_close(nc_mean_temp)
 
 # North Pole
-lat_index <- 1
-lon_index <- round((180 - 135) / 2.5) + 1
+lat_index <- 6
+lon_index <- round((180 - 100.1140) / 2.5) + 1
 
 # Turn this code into a function
 
@@ -97,7 +97,7 @@ plot(years_oct, temp_oct, xlab = "year", ylab = "temp difference (degC)", main =
 
 
 # Residual plot for October
-fit <- lm(temp_oct ~ years)
+fit <- lm(temp_oct ~ years_oct)
 abline(fit, col = "red")
 
 # histogram of residuals
@@ -179,7 +179,8 @@ qqnorm(summary(fit)$residuals, pch = 16)
 qqline(summary(fit)$residuals, datax = FALSE, distribution = qnorm,
        probs = c(0.25, 0.75), qtype = 7, pch = 16)
 
-# Find year of maximum temperature
+# Find year of maximum temperature for each month that data was collected
+# Ideally for all months
 max_years = rep()
 max_years <- append(max_years, years_jan[which.max(temp_jan)])
 max_years <- append(max_years, years_jan[which.max(temp_feb)])
@@ -194,7 +195,20 @@ max_years <- append(max_years, years_oct[which.max(temp_oct)])
 max_years <- append(max_years, years[which.max(temp_nov)])
 max_years <- append(max_years, years[which.max(temp_dec)])
 
-# Also use which.min to find minimum years and find pattern
+# Also use which.min to find minimum years and find 
+min_years = rep()
+min_years <- append(min_years, years_jan[which.min(temp_jan)])
+min_years <- append(min_years, years_jan[which.min(temp_feb)])
+# March?
+min_years <- append(min_years, years[which.min(temp_apr)])
+# May?
+# June?
+min_years <- append(min_years, years[which.min(temp_july)])
+# August?
+# September?
+min_years <- append(min_years, years_oct[which.min(temp_oct)])
+min_years <- append(min_years, years[which.min(temp_nov)])
+min_years <- append(min_years, years[which.min(temp_dec)])
 
 # Temperature (daily) data
 
