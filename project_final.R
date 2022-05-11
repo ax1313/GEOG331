@@ -10,7 +10,7 @@ library(ggplot2)
 library(ncmeta)
 
 # Temperature (monthly mean) data (air.mon.mean.nc)
-# Data starts from 
+# Data starts from January 1, 1948 and ends on March 1, 2022
 
 # load in file and llongitude, latitude, and time values
 nc_mean_temp <- nc_open('Z:/students/axie/project/air.mon.mean.nc')
