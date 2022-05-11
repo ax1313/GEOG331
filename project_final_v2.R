@@ -137,14 +137,9 @@ plot(1:12, gaps, type = 'l', xlab = "month", ylab = "year difference",
      main = "Years between maximum and minimum temperatures", col = 'red', lwd = 3)
 
 df_years <- data.frame(1:12, max_years, min_years)
-# https://stackoverflow.com/questions/2564258/plot-two-graphs-in-same-plot-in-r
-# ggplot(data=df_years, aes(x=1:12, y=max_years, group=1)) +
-#   geom_line() + # make this a line plot
-#   ggtitle("Temperature at Hamilton, NY")    # Set title
-
 ggplot(df_years, aes(1:12)) +
-  geom_line(aes(y=max_years), color="darkred", size = 3) +
-  geom_line(aes(y=min_years), color="steelblue", size = 3) +
+  geom_line(aes(y=max_years), color="red", size = 3) +
+  geom_line(aes(y=min_years), color="blue", size = 3) +
   xlab("Month") + ylab("Year") + ggtitle("Years of Maximum (Red) and Minimum (Blue) Temperatures")
 
 # Regression
