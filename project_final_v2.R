@@ -144,6 +144,28 @@ ggplot(df_years, aes(1:12)) +
 
 # Regression
 
+# Residual Plot
+
 # Take year with most difference and 
 
 # Heat maps depicting difference
+
+# Sea ice dataset
+nc_seaice <- nc_open("Z:/students/axie/project/G10010_V2/G10010_sibt1850_v2.0.nc")
+lon <- ncvar_get(nc_seaice, "longitude")
+lat <- ncvar_get(nc_seaice, "latitude", verbose = F)
+t <- ncvar_get(nc_seaice, "time")
+
+seaice.array <- ncvar_get(nc_seaice, "seaice_conc") # store the data in a 3-dimensional array
+fillvalue <- ncatt_get(nc_seaice, "seaice_conc", "_FillValue")
+
+nc_close(nc_mean_temp)
+
+# check which longitude values have ice
+seaice.slice <- seaice.array[, , 1]
+lon_adjust <- 100
+ice_vals <- rep()
+for (x in 1:240) {
+  ice_vals <- append(ice_vals, seaice.array[, , 1][lon_adjust, x])
+}
+plot(1:240, ice_vals)
