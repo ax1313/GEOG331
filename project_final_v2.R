@@ -21,15 +21,15 @@ nc_close(nc_mean_temp)
 
 time_length = nc_mean_temp[["dim"]][["time"]][["len"]]
 
-get_month_vals <- function(first_month_val, lat_index, lon_index, array, length) {
-  new_lon_index = round((180 - lon_index) / 2.5) + 1
+get_month_vals <- function(first_month_val, lat, lon, array, length) {
+  new_lon = round((180 - lon) / 2.5) + 1
   second_month_val <- first_month_val + 12
   air.first <- array[, , first_month_val]
   temp <- rep()
   while (second_month_val <= length) {
     air.last <- air.array[, , second_month_val] # place loop value here
     air.diff <- air.last - air.first
-    temp <- append(temp, air.diff[new_lon_index, lat_index])
+    temp <- append(temp, air.diff[new_lon, lat])
     second_month_val <- second_month_val + 12
   }
   return(temp)
@@ -44,8 +44,18 @@ plot_vals <- function(month, month_vals, title) {
 }
   
 # Adjust these values for different latitude / longitude 
+
+# Arctic Center
 lat_adjust = 6
 lon_adjust = 100.1140
+
+# # North Pole
+# lat_adjust <- 1
+# lon_adjust <-  135
+
+# # Miami
+# lat_adjust <- 27
+# lon_adjust <- 80.1918
 
 # January
 temp_jan <- get_month_vals(1, lat_adjust, lon_adjust, air.array, time_length)
@@ -178,7 +188,8 @@ sd_temps <- append(sd_temps, sd(temp_sep))
 sd_temps <- append(sd_temps, sd(temp_oct_1951))
 sd_temps <- append(sd_temps, sd(temp_nov))
 sd_temps <- append(sd_temps, sd(temp_dec))
-plot()
+plot(1:12, sd_temps, type = 'l', xlab = "Month", ylab = "Standard Deviation (degC)",
+     main = "Temperature Standard Deviation over 12 Months", col = 'blue', lwd = '3')
 
 df_years <- data.frame(1:12, max_years, min_years)
 ggplot(df_years, aes(1:12)) +
@@ -228,8 +239,8 @@ nc_close(nc_mean_temp)
 seaice.slice <- seaice.array[, , 1] # Adjust third index to see patterns in amount of seaice
 lon_adjust <- 1400
 ice_vals <- rep()
-for (x in 1:240) {
+for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
   ice_vals <- append(ice_vals, seaice.slice[lon_adjust, x])
 }
-plot(nc_seaice[["dim"]][["latitude"]][["vals"]], ice_vals, xlab = 'Latitude (degrees)', 
+plot(nc_seaice[["dim"]][["latitude"]][["vals"]][1:96], ice_vals, xlab = 'Latitude (degrees)', 
      ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration at 169.875 degrees E')

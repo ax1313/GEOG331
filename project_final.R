@@ -23,9 +23,17 @@ fillvalue <- ncatt_get(nc_mean_temp, "air", "_FillValue")
 
 nc_close(nc_mean_temp)
 
-# North Pole
+# Arctic Center
 lat_index <- 6
 lon_index <- round((180 - 100.1140) / 2.5) + 1
+
+# # North Pole
+# lat_index <- 1
+# lon_index <- round((180 - 135) / 2.5) + 1
+
+# # Miami
+# lat_index <- 27
+# lon_index <- round((180 - 80.1918) / 2.5) + 1
 
 # Turn this code into a function
 
