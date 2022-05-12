@@ -251,7 +251,7 @@ fillvalue <- ncatt_get(nc_seaice, "seaice_conc", "_FillValue")
 nc_close(nc_mean_temp)
 
 # check which longitude values have ice
-seaice.slice <- seaice.array[, , 1] # Adjust third index to see patterns in amount of seaice
+seaice.slice <- seaice.array[, , 2000] # Adjust third index to see patterns in amount of seaice
 lon_adjust <- 100
 ice_vals <- rep()
 for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
