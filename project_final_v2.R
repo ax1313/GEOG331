@@ -21,15 +21,15 @@ nc_close(nc_mean_temp)
 
 time_length = nc_mean_temp[["dim"]][["time"]][["len"]]
 
-get_month_vals <- function(first_month_val, lat, lon, array, length) {
-  new_lon = round((180 - lon) / 2.5) + 1
+get_month_vals <- function(first_month_val, lat_val, lon_val, array, length) {
+  new_lon_val = round((180 - lon_val) / 2.5) + 1
   second_month_val <- first_month_val + 12
   air.first <- array[, , first_month_val]
   temp <- rep()
   while (second_month_val <= length) {
     air.last <- air.array[, , second_month_val] # place loop value here
     air.diff <- air.last - air.first
-    temp <- append(temp, air.diff[new_lon, lat])
+    temp <- append(temp, air.diff[new_lon_val, lat_val])
     second_month_val <- second_month_val + 12
   }
   return(temp)
@@ -45,13 +45,17 @@ plot_vals <- function(month, month_vals, title) {
   
 # Adjust these values for different latitude / longitude 
 
-# Arctic Center
-lat_adjust = 6
-lon_adjust = 100.1140
+# # Arctic Center
+# lat_adjust = 6 # Index value corresponding to closest latitude
+# lon_adjust = 100.1140
 
-# # North Pole
-# lat_adjust <- 1
-# lon_adjust <-  135
+# North Pole
+lat_adjust <- 1
+lon_adjust <-  135
+
+# # Hamilton
+# lat_adjust <- 20
+# lon_adjust <-  75.5394
 
 # # Miami
 # lat_adjust <- 27
@@ -143,7 +147,13 @@ min_years <- append(min_years, years_apr_dec[which.min(temp_oct)])
 min_years <- append(min_years, years_apr_dec[which.min(temp_nov)])
 min_years <- append(min_years, years_apr_dec[which.min(temp_dec)])
 
-# Get averages
+df_years <- data.frame(1:12, max_years, min_years)
+ggplot(df_years, aes(1:12)) +
+  geom_line(aes(y=max_years), color="red", size = 3) +
+  geom_line(aes(y=min_years), color="blue", size = 3) +
+  xlab("Month") + ylab("Year") + ggtitle("Years of Maximum (Red) and Minimum (Blue) Temperatures")
+
+# Get averages of temperature values for each month
 avg_temps <- rep()
 avg_temps <- append(avg_temps, mean(temp_jan))
 avg_temps <- append(avg_temps, mean(temp_feb))
@@ -159,6 +169,7 @@ avg_temps <- append(avg_temps, mean(temp_oct_1951))
 avg_temps <- append(avg_temps, mean(temp_nov))
 avg_temps <- append(avg_temps, mean(temp_dec))
 
+# Get median of temperature values for each month
 median_temps <- rep()
 median_temps <- append(median_temps, median(temp_jan))
 median_temps <- append(median_temps, median(temp_feb))
@@ -174,6 +185,10 @@ median_temps <- append(median_temps, median(temp_oct_1951))
 median_temps <- append(median_temps, median(temp_nov))
 median_temps <- append(median_temps, median(temp_dec))
 
+# Get standard deviation of temperature values for each month
+# The higher the standard deviation, the more varied the temperature differences are
+# Higher values during winter shows that climate change has higher impact on winter month temperatures
+# Summer isn't changing much -> More heat during winter
 sd_temps <- rep()
 sd_temps <- append(sd_temps, sd(temp_jan))
 sd_temps <- append(sd_temps, sd(temp_feb))
@@ -184,18 +199,12 @@ sd_temps <- append(sd_temps, sd(temp_jun))
 sd_temps <- append(sd_temps, sd(temp_jul))
 sd_temps <- append(sd_temps, sd(temp_aug))
 sd_temps <- append(sd_temps, sd(temp_sep))
-# sd_temps <- append(sd_temps, sd(temp_oct))
-sd_temps <- append(sd_temps, sd(temp_oct_1951))
+sd_temps <- append(sd_temps, sd(temp_oct))
+# sd_temps <- append(sd_temps, sd(temp_oct_1951))
 sd_temps <- append(sd_temps, sd(temp_nov))
 sd_temps <- append(sd_temps, sd(temp_dec))
 plot(1:12, sd_temps, type = 'l', xlab = "Month", ylab = "Standard Deviation (degC)",
      main = "Temperature Standard Deviation over 12 Months", col = 'blue', lwd = '3')
-
-df_years <- data.frame(1:12, max_years, min_years)
-ggplot(df_years, aes(1:12)) +
-  geom_line(aes(y=max_years), color="red", size = 3) +
-  geom_line(aes(y=min_years), color="blue", size = 3) +
-  xlab("Month") + ylab("Year") + ggtitle("Years of Maximum (Red) and Minimum (Blue) Temperatures")
 
 gaps <- rep()
 for (x in 1:12) {
@@ -237,7 +246,7 @@ nc_close(nc_mean_temp)
 
 # check which longitude values have ice
 seaice.slice <- seaice.array[, , 1] # Adjust third index to see patterns in amount of seaice
-lon_adjust <- 1400
+lon_adjust <- 100
 ice_vals <- rep()
 for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
   ice_vals <- append(ice_vals, seaice.slice[lon_adjust, x])
