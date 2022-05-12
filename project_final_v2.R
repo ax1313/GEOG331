@@ -22,7 +22,7 @@ nc_close(nc_mean_temp)
 time_length = nc_mean_temp[["dim"]][["time"]][["len"]]
 
 get_month_vals <- function(first_month_val, lat_val, lon_val, array, length) {
-  new_lon_val = round((180 - lon_val) / 2.5) + 1
+  new_lon_val = round((180 - lon_val) / 2.5) + 1 # Get index value of longitude to extract from air.diff
   second_month_val <- first_month_val + 12
   air.first <- array[, , first_month_val]
   temp <- rep()
@@ -45,13 +45,9 @@ plot_vals <- function(month, month_vals, title) {
   
 # Adjust these values for different latitude / longitude 
 
-# # Normal Coordinates
+# # Arctic Coordinates
 # lat_adjust = 6 # Index value corresponding to closest latitude
 # lon_adjust = 100.1140
-
-# # Oposite longitude coordinates
-# lat_adjust = 6 # Index value corresponding to closest latitude
-# lon_adjust = -100.1140
 
 # # North Pole
 # lat_adjust <- 1
@@ -59,7 +55,7 @@ plot_vals <- function(month, month_vals, title) {
 
 # Hamilton
 lat_adjust <- 20
-lon_adjust <-  75.5394
+lon_adjust <-  75.5446
 
 # # Miami
 # lat_adjust <- 27
@@ -105,9 +101,9 @@ plot_vals(9, temp_sep, "September Difference in Temperatures from 1948")
 temp_oct <- get_month_vals(10, lat_adjust, lon_adjust, air.array, time_length)
 plot_vals(10, temp_oct, "October Difference in Temperatures from 1948")
 
-# October From 1951 (Get rid of outliers from 1948 and 1949)
-temp_oct_1951 <- get_month_vals(34, lat_adjust, lon_adjust, air.array, time_length)
-plot(1951:2021, temp_oct_1951, xlab = "year", ylab = "temp difference (degC)", main = "October Difference in Temperatures from 1951")
+# October From 1950 (Get rid of outliers from 1948 and 1949 for Arctic)
+temp_oct_1950 <- get_month_vals(34, lat_adjust, lon_adjust, air.array, time_length)
+plot(1951:2021, temp_oct_1950, xlab = "year", ylab = "temp difference (degC)", main = "October Difference in Temperatures from 1950")
 
 # November
 temp_nov <- get_month_vals(11, lat_adjust, lon_adjust, air.array, time_length)
@@ -169,7 +165,7 @@ avg_temps <- append(avg_temps, mean(temp_jul))
 avg_temps <- append(avg_temps, mean(temp_aug))
 avg_temps <- append(avg_temps, mean(temp_sep))
 # avg_temps <- append(avg_temps, mean(temp_oct))
-avg_temps <- append(avg_temps, mean(temp_oct_1951))
+avg_temps <- append(avg_temps, mean(temp_oct_1950))
 avg_temps <- append(avg_temps, mean(temp_nov))
 avg_temps <- append(avg_temps, mean(temp_dec))
 
@@ -185,7 +181,7 @@ median_temps <- append(median_temps, median(temp_jul))
 median_temps <- append(median_temps, median(temp_aug))
 median_temps <- append(median_temps, median(temp_sep))
 # median_temps <- append(median_temps, median(temp_oct))
-median_temps <- append(median_temps, median(temp_oct_1951))
+median_temps <- append(median_temps, median(temp_oct_1950))
 median_temps <- append(median_temps, median(temp_nov))
 median_temps <- append(median_temps, median(temp_dec))
 
@@ -204,18 +200,11 @@ sd_temps <- append(sd_temps, sd(temp_jul))
 sd_temps <- append(sd_temps, sd(temp_aug))
 sd_temps <- append(sd_temps, sd(temp_sep))
 sd_temps <- append(sd_temps, sd(temp_oct))
-# sd_temps <- append(sd_temps, sd(temp_oct_1951))
+# sd_temps <- append(sd_temps, sd(temp_oct_1950))
 sd_temps <- append(sd_temps, sd(temp_nov))
 sd_temps <- append(sd_temps, sd(temp_dec))
 plot(1:12, sd_temps, type = 'l', xlab = "Month", ylab = "Standard Deviation (degC)",
      main = "Temperature Standard Deviation over 12 Months", col = 'blue', lwd = '3')
-
-gaps <- rep()
-for (x in 1:12) {
-  gaps <- append(gaps, max_years[x] - min_years[x])
-}
-plot(1:12, gaps, type = 'l', xlab = "month", ylab = "year difference", 
-     main = "Years between maximum and minimum temperatures", col = 'red', lwd = 3)
 
 # Regression
 years_1951 <- 1951:2021
@@ -229,7 +218,7 @@ fit_jul <- lm(temp_jul ~ years_apr_dec)
 fit_aug <- lm(temp_aug ~ years_apr_dec)
 fit_sep <- lm(temp_sep ~ years_apr_dec)
 fit_oct <- lm(temp_oct ~ years_apr_dec)
-fit_oct_1951 <- lm(temp_oct_1951 ~ years_1951)
+fit_oct_1951 <- lm(temp_oct_1950 ~ years_1951)
 fit_nov <- lm(temp_nov ~ years_apr_dec)
 fit_dec <- lm(temp_dec ~ years_apr_dec)
 
@@ -259,3 +248,19 @@ for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
 }
 plot(nc_seaice[["dim"]][["latitude"]][["vals"]][1:96], ice_vals, xlab = 'Latitude (degrees)',
      ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration')
+
+zero_ice_vals <- rep()
+for (t in 1:2016) {
+  zero_count <- 0
+  for (x1 in 1:96) {
+    temp <- seaice.array[lon_adjust,x1,t]
+    if (temp == 0) {
+      zero_count = zero_count + 1
+    }
+  }
+  full_ice_vals <- append(full_ice_vals, full_count)
+  zero_ice_vals <- append(zero_ice_vals, zero_count)
+}
+
+plot(seq(1850, 2017, length.out = 2016), zero_ice_vals, type = 'l', xlab = "Year", 
+     ylab = "Number of locations", main = 'Locations with 0% sea-ice concentration over time')
