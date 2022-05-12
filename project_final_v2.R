@@ -45,17 +45,21 @@ plot_vals <- function(month, month_vals, title) {
   
 # Adjust these values for different latitude / longitude 
 
-# # Arctic Center
+# # Normal Coordinates
 # lat_adjust = 6 # Index value corresponding to closest latitude
 # lon_adjust = 100.1140
 
-# North Pole
-lat_adjust <- 1
-lon_adjust <-  135
+# # Oposite longitude coordinates
+# lat_adjust = 6 # Index value corresponding to closest latitude
+# lon_adjust = -100.1140
 
-# # Hamilton
-# lat_adjust <- 20
-# lon_adjust <-  75.5394
+# # North Pole
+# lat_adjust <- 1
+# lon_adjust <-  135
+
+# Hamilton
+lat_adjust <- 20
+lon_adjust <-  75.5394
 
 # # Miami
 # lat_adjust <- 27
@@ -214,6 +218,7 @@ plot(1:12, gaps, type = 'l', xlab = "month", ylab = "year difference",
      main = "Years between maximum and minimum temperatures", col = 'red', lwd = 3)
 
 # Regression
+years_1951 <- 1951:2021
 fit_jan <- lm(temp_jan ~ years_jan_mar)
 fit_feb <- lm(temp_feb ~ years_jan_mar)
 fit_mar <- lm(temp_mar ~ years_jan_mar)
@@ -224,6 +229,7 @@ fit_jul <- lm(temp_jul ~ years_apr_dec)
 fit_aug <- lm(temp_aug ~ years_apr_dec)
 fit_sep <- lm(temp_sep ~ years_apr_dec)
 fit_oct <- lm(temp_oct ~ years_apr_dec)
+fit_oct_1951 <- lm(temp_oct_1951 ~ years_1951)
 fit_nov <- lm(temp_nov ~ years_apr_dec)
 fit_dec <- lm(temp_dec ~ years_apr_dec)
 
@@ -251,5 +257,5 @@ ice_vals <- rep()
 for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
   ice_vals <- append(ice_vals, seaice.slice[lon_adjust, x])
 }
-plot(nc_seaice[["dim"]][["latitude"]][["vals"]][1:96], ice_vals, xlab = 'Latitude (degrees)', 
-     ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration at 169.875 degrees E')
+plot(nc_seaice[["dim"]][["latitude"]][["vals"]][1:96], ice_vals, xlab = 'Latitude (degrees)',
+     ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration')
