@@ -87,6 +87,10 @@ plot_vals(9, temp_sep, "September Difference in Temperatures from 1948")
 temp_oct <- get_month_vals(10, lat_adjust, lon_adjust, air.array, time_length)
 plot_vals(10, temp_oct, "October Difference in Temperatures from 1948")
 
+# From 1951
+temp_oct_1951 <- get_month_vals(34, lat_adjust, lon_adjust, air.array, time_length)
+plot(1951:2021, temp_oct_1951, xlab = "year", ylab = "temp difference (degC)", main = "October Difference in Temperatures from 1951")
+
 # November
 temp_nov <- get_month_vals(11, lat_adjust, lon_adjust, air.array, time_length)
 plot_vals(11, temp_nov, "November Difference in Temperatures from 1948")
@@ -100,7 +104,7 @@ years_jan_mar <- 1949:2022
 years_apr_dec <- 1949:2021
 
 # Find year of maximum temperature for each month that data was collected
-max_years = rep()
+max_years <- rep()
 max_years <- append(max_years, years_jan_mar[which.max(temp_jan)])
 max_years <- append(max_years, years_jan_mar[which.max(temp_feb)])
 max_years <- append(max_years, years_jan_mar[which.max(temp_mar)])
@@ -115,7 +119,7 @@ max_years <- append(max_years, years_apr_dec[which.max(temp_nov)])
 max_years <- append(max_years, years_apr_dec[which.max(temp_dec)])
 
 # Also use which.min to find minimum years
-min_years = rep()
+min_years <- rep()
 min_years <- append(min_years, years_jan_mar[which.min(temp_jan)])
 min_years <- append(min_years, years_jan_mar[which.min(temp_feb)])
 min_years <- append(min_years, years_jan_mar[which.min(temp_mar)])
@@ -128,6 +132,22 @@ min_years <- append(min_years, years_apr_dec[which.min(temp_sep)])
 min_years <- append(min_years, years_apr_dec[which.min(temp_oct)])
 min_years <- append(min_years, years_apr_dec[which.min(temp_nov)])
 min_years <- append(min_years, years_apr_dec[which.min(temp_dec)])
+
+# Get averages
+avg_temps <- rep()
+avg_temps <- append(avg_temps, mean(temp_jan))
+avg_temps <- append(avg_temps, mean(temp_feb))
+avg_temps <- append(avg_temps, mean(temp_mar))
+avg_temps <- append(avg_temps, mean(temp_apr))
+avg_temps <- append(avg_temps, mean(temp_may))
+avg_temps <- append(avg_temps, mean(temp_jun))
+avg_temps <- append(avg_temps, mean(temp_jul))
+avg_temps <- append(avg_temps, mean(temp_aug))
+avg_temps <- append(avg_temps, mean(temp_sep))
+# avg_temps <- append(avg_temps, mean(temp_oct))
+avg_temps <- append(avg_temps, mean(temp_oct_1951))
+avg_temps <- append(avg_temps, mean(temp_nov))
+avg_temps <- append(avg_temps, mean(temp_dec))
 
 gaps <- rep()
 for (x in 1:12) {
@@ -143,6 +163,18 @@ ggplot(df_years, aes(1:12)) +
   xlab("Month") + ylab("Year") + ggtitle("Years of Maximum (Red) and Minimum (Blue) Temperatures")
 
 # Regression
+fit_jan <- lm(temp_jan ~ years_jan_mar)
+fit_feb <- lm(temp_feb ~ years_jan_mar)
+fit_mar <- lm(temp_mar ~ years_jan_mar)
+fit_apr <- lm(temp_apr ~ years_apr_dec)
+fit_may <- lm(temp_may ~ years_apr_dec)
+fit_jun <- lm(temp_jun ~ years_apr_dec)
+fit_jul <- lm(temp_jul ~ years_apr_dec)
+fit_aug <- lm(temp_aug ~ years_apr_dec)
+fit_sep <- lm(temp_sep ~ years_apr_dec)
+fit_oct <- lm(temp_oct ~ years_apr_dec)
+fit_nov <- lm(temp_nov ~ years_apr_dec)
+fit_dec <- lm(temp_dec ~ years_apr_dec)
 
 # Residual Plot
 
@@ -162,10 +194,10 @@ fillvalue <- ncatt_get(nc_seaice, "seaice_conc", "_FillValue")
 nc_close(nc_mean_temp)
 
 # check which longitude values have ice
-seaice.slice <- seaice.array[, , 1]
+seaice.slice <- seaice.array[, , 1] # Adjust third index to see patterns in amount of seaice
 lon_adjust <- 100
 ice_vals <- rep()
 for (x in 1:240) {
-  ice_vals <- append(ice_vals, seaice.array[, , 1][lon_adjust, x])
+  ice_vals <- append(ice_vals, seaice.slice[lon_adjust, x])
 }
 plot(1:240, ice_vals)
