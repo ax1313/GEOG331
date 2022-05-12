@@ -87,7 +87,7 @@ plot_vals(9, temp_sep, "September Difference in Temperatures from 1948")
 temp_oct <- get_month_vals(10, lat_adjust, lon_adjust, air.array, time_length)
 plot_vals(10, temp_oct, "October Difference in Temperatures from 1948")
 
-# From 1951
+# October From 1951 (Get rid of outliers from 1948 and 1949)
 temp_oct_1951 <- get_month_vals(34, lat_adjust, lon_adjust, air.array, time_length)
 plot(1951:2021, temp_oct_1951, xlab = "year", ylab = "temp difference (degC)", main = "October Difference in Temperatures from 1951")
 
@@ -149,18 +149,49 @@ avg_temps <- append(avg_temps, mean(temp_oct_1951))
 avg_temps <- append(avg_temps, mean(temp_nov))
 avg_temps <- append(avg_temps, mean(temp_dec))
 
-gaps <- rep()
-for (x in 1:12) {
-  gaps <- append(gaps, max_years[x] - min_years[x])
-}
-plot(1:12, gaps, type = 'l', xlab = "month", ylab = "year difference", 
-     main = "Years between maximum and minimum temperatures", col = 'red', lwd = 3)
+median_temps <- rep()
+median_temps <- append(median_temps, median(temp_jan))
+median_temps <- append(median_temps, median(temp_feb))
+median_temps <- append(median_temps, median(temp_mar))
+median_temps <- append(median_temps, median(temp_apr))
+median_temps <- append(median_temps, median(temp_may))
+median_temps <- append(median_temps, median(temp_jun))
+median_temps <- append(median_temps, median(temp_jul))
+median_temps <- append(median_temps, median(temp_aug))
+median_temps <- append(median_temps, median(temp_sep))
+# median_temps <- append(median_temps, median(temp_oct))
+median_temps <- append(median_temps, median(temp_oct_1951))
+median_temps <- append(median_temps, median(temp_nov))
+median_temps <- append(median_temps, median(temp_dec))
+
+sd_temps <- rep()
+sd_temps <- append(sd_temps, sd(temp_jan))
+sd_temps <- append(sd_temps, sd(temp_feb))
+sd_temps <- append(sd_temps, sd(temp_mar))
+sd_temps <- append(sd_temps, sd(temp_apr))
+sd_temps <- append(sd_temps, sd(temp_may))
+sd_temps <- append(sd_temps, sd(temp_jun))
+sd_temps <- append(sd_temps, sd(temp_jul))
+sd_temps <- append(sd_temps, sd(temp_aug))
+sd_temps <- append(sd_temps, sd(temp_sep))
+# sd_temps <- append(sd_temps, sd(temp_oct))
+sd_temps <- append(sd_temps, sd(temp_oct_1951))
+sd_temps <- append(sd_temps, sd(temp_nov))
+sd_temps <- append(sd_temps, sd(temp_dec))
+plot()
 
 df_years <- data.frame(1:12, max_years, min_years)
 ggplot(df_years, aes(1:12)) +
   geom_line(aes(y=max_years), color="red", size = 3) +
   geom_line(aes(y=min_years), color="blue", size = 3) +
   xlab("Month") + ylab("Year") + ggtitle("Years of Maximum (Red) and Minimum (Blue) Temperatures")
+
+gaps <- rep()
+for (x in 1:12) {
+  gaps <- append(gaps, max_years[x] - min_years[x])
+}
+plot(1:12, gaps, type = 'l', xlab = "month", ylab = "year difference", 
+     main = "Years between maximum and minimum temperatures", col = 'red', lwd = 3)
 
 # Regression
 fit_jan <- lm(temp_jan ~ years_jan_mar)
@@ -195,9 +226,10 @@ nc_close(nc_mean_temp)
 
 # check which longitude values have ice
 seaice.slice <- seaice.array[, , 1] # Adjust third index to see patterns in amount of seaice
-lon_adjust <- 100
+lon_adjust <- 1400
 ice_vals <- rep()
 for (x in 1:240) {
   ice_vals <- append(ice_vals, seaice.slice[lon_adjust, x])
 }
-plot(1:240, ice_vals)
+plot(nc_seaice[["dim"]][["latitude"]][["vals"]], ice_vals, xlab = 'Latitude (degrees)', 
+     ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration at 169.875 degrees E')
