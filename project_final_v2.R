@@ -132,6 +132,20 @@ max_years <- append(max_years, years_apr_dec[which.max(temp_oct)])
 max_years <- append(max_years, years_apr_dec[which.max(temp_nov)])
 max_years <- append(max_years, years_apr_dec[which.max(temp_dec)])
 
+max_vals <- rep()
+max_vals <- append(max_vals, max(temp_jan))
+max_vals <- append(max_vals, max(temp_feb))
+max_vals <- append(max_vals, max(temp_mar))
+max_vals <- append(max_vals, max(temp_apr))
+max_vals <- append(max_vals, max(temp_may))
+max_vals <- append(max_vals, max(temp_jun))
+max_vals <- append(max_vals, max(temp_jul))
+max_vals <- append(max_vals, max(temp_aug))
+max_vals <- append(max_vals, max(temp_sep))
+max_vals <- append(max_vals, max(temp_oct))
+max_vals <- append(max_vals, max(temp_nov))
+max_vals <- append(max_vals, max(temp_dec))
+
 # Also use which.min to find minimum years
 min_years <- rep()
 min_years <- append(min_years, years_jan_mar[which.min(temp_jan)])
@@ -248,19 +262,3 @@ for (x in 1:96) { # 96th index corresponds to 66.125 degrees North latitude
 }
 plot(nc_seaice[["dim"]][["latitude"]][["vals"]][1:96], ice_vals, xlab = 'Latitude (degrees)',
      ylab = 'Sea-Ice Concentration', main = 'Sea-Ice Concentration')
-
-zero_ice_vals <- rep()
-for (t in 1:2016) {
-  zero_count <- 0
-  for (x1 in 1:96) {
-    temp <- seaice.array[lon_adjust,x1,t]
-    if (temp == 0) {
-      zero_count = zero_count + 1
-    }
-  }
-  full_ice_vals <- append(full_ice_vals, full_count)
-  zero_ice_vals <- append(zero_ice_vals, zero_count)
-}
-
-plot(seq(1850, 2017, length.out = 2016), zero_ice_vals, type = 'l', xlab = "Year", 
-     ylab = "Number of locations", main = 'Locations with 0% sea-ice concentration over time')
